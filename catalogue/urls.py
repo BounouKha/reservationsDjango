@@ -1,9 +1,5 @@
 # Register your models here.
 from django.urls import path
-from django.contrib import admin
-from .models import Artist
-admin.site.register(Artist)
-
 from . import views
 
 app_name='catalogue'
