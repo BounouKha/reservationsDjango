@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect
+from gc import get_objects
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from pyexpat.errors import messages
 from django.contrib import messages
@@ -60,3 +62,15 @@ def create(request):
     return render(request, 'artist/create.html', {
         'form': form,
     })
+
+
+def delete(request, artist_id):
+    artist = get_object_or_404(Artist, id=artist_id)
+    if request.method == 'POST':
+        artist.delete()
+        messages.success(request, 'Artiste supprimé avec succès.')
+        return redirect('catalogue:artist-index')
+    return render(request, 'artist/show.html', {
+        'artist': artist,
+    })
+
