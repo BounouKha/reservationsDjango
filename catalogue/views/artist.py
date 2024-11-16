@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import Http404
+from pyexpat.errors import messages
+from django.contrib import messages
 
 from catalogue.forms.ArtistForm import ArtistForm
 from catalogue.models import Artist
@@ -47,3 +49,14 @@ def edit(request, artist_id):
         'artist': artist,
     })
 
+def create(request):
+    form = ArtistForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Artiste a été créé')
+            return redirect('catalogue:artist-index')
+    return render(request, 'artist/create.html', {
+        'form': form,
+    })
