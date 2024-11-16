@@ -6,6 +6,13 @@
 </head>
 <body>
 <div class="container">
+    <header>
+        <div style="float:right">
+            <p>Vous n'êtes pas connecté.</p>
+            <p><a href="{% url 'login' %}">Se connecter</a></p>
+        </div>
+    </header>
+    <main>
     <div id="notification">
         {% if messages %}
         <ul class="messages">
@@ -16,6 +23,9 @@
         {% endif %}
    </div>
     {% block content %}{% endblock %}
+    </main>
+    <footer>&copy; Projet Réservations - EPFC / ICC</footer>
+
 </div>
 </body>
 </html>
