@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from pyexpat.errors import messages
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import user_passes_test
 
 from catalogue.forms.ArtistForm import ArtistForm
 from catalogue.models import Artist
@@ -41,15 +43,17 @@ def edit(request, artist_id):
         # redirect to detail_view
         if form.is_valid():
             form.save()
-
+            messages.success(request, "Artiste modifié avec succès.")
             return render(request, "artist/show.html", {
                 'artist': artist,
             })
-
+        else:
+            messages.error(request, "Artiste modifié avec succès.")
     return render(request, 'artist/edit.html', {
         'form': form,
         'artist': artist,
     })
+
 
 def create(request):
     form = ArtistForm(request.POST or None)
@@ -57,8 +61,10 @@ def create(request):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            messages.success(request, 'Artiste a été créé')
+            messages.add_message(request, messages.SUCCESS, "Nouvel artiste créé avec succès.")
             return redirect('catalogue:artist-index')
+        else:
+            messages.add_message(request, messages.ERROR, "Echec de l'ajout d'un nouvel artiste!.")
     return render(request, 'artist/create.html', {
         'form': form,
     })
@@ -70,7 +76,12 @@ def delete(request, artist_id):
         artist.delete()
         messages.success(request, 'Artiste supprimé avec succès.')
         return redirect('catalogue:artist-index')
+    else:
+        messages.error(request, "L'artiste n'a pas été supprimé!")
     return render(request, 'artist/show.html', {
         'artist': artist,
     })
+
+
+
 
