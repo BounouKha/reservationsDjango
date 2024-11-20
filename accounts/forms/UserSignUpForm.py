@@ -42,7 +42,6 @@ class UserSignUpForm(UserCreationForm):
         ]
 
     def save(self, commit=True):
-        # Créer l'utilisateur sans le sauvegarder immédiatement
         user = super().save(commit=False)
         if commit:
             user.save()
@@ -53,10 +52,9 @@ class UserSignUpForm(UserCreationForm):
 
         # Créer les métadonnées utilisateur
         if self.cleaned_data['langue']:
-            user_meta = UserMeta(
+            user_meta, created = UserMeta.objects.get_or_create(
                 user=user,
                 langue=self.cleaned_data['langue'],
             )
-            user_meta.save()
 
         return user
