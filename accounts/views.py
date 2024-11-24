@@ -5,13 +5,14 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.shortcuts import render
-
 from catalogue.models import UserMeta
-from .forms import UserSignUpForm
+from .forms.UserSignUpForm import UserSignUpForm
 from django.contrib.auth.decorators import login_required
 
+
+
 class UserSignUpView(UserPassesTestMixin, CreateView):
-    form_class = UserCreationForm
+    form_class = UserSignUpForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
 
@@ -21,6 +22,7 @@ class UserSignUpView(UserPassesTestMixin, CreateView):
     def handle_no_permission(self):
         messages.error(self.request, "Vous êtes déjà inscrit!")
         return redirect('home')
+
 
 @login_required
 def profile(request):
