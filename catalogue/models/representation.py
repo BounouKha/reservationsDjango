@@ -6,6 +6,13 @@ class Representation(models.Model):
     show = models.ForeignKey(Show, on_delete=models.RESTRICT, null=False, related_name='representations')
     schedule = models.DateTimeField()
     location = models.ForeignKey(Location, on_delete=models.RESTRICT, null=True, related_name='representations')
+    
+    # Relation ManyToMany vers Reservation via RepresentationReservation
+    reservations = models.ManyToManyField(
+        'Reservation',
+        through='RepresentationReservation',
+        related_name='representations'
+    )
 
     def __str__(self):
         return f"{self.show.slug} @ {self.schedule}"

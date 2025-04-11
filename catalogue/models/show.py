@@ -23,6 +23,12 @@ class Show(models.Model):
         related_name="shows",
     )
 
+    prices = models.ManyToManyField(
+        "Price",
+        through="ShowPrice",
+        related_name="shows",
+    )
+
     objects = ShowManager()
 
     def __str__(self):

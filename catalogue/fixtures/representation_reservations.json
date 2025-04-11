@@ -1,0 +1,62 @@
+[
+{
+    "model": "catalogue.representationreservation",
+    "pk": 1,
+    "fields": {
+      "representation": 1,
+      "reservation": 1,
+      "price": 1,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "catalogue.representationreservation",
+    "pk": 2,
+    "fields": {
+      "representation": 1,
+      "reservation": 1,
+      "price": 3,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "catalogue.representationreservation",
+    "pk": 3,
+    "fields": {
+      "representation": 2,
+      "reservation": 2,
+      "price": 2,
+      "quantity": 4
+    }
+  },
+  {
+    "model": "catalogue.representationreservation",
+    "pk": 4,
+    "fields": {
+      "representation": 3,
+      "reservation": 3,
+      "price": 1,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "catalogue.representationreservation",
+    "pk": 5,
+    "fields": {
+      "representation": 4,
+      "reservation": 2,
+      "price": 5,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "catalogue.representationreservation",
+    "pk": 6,
+    "fields": {
+      "representation": 5,
+      "reservation": 4,
+      "price": 3,
+      "quantity": 3
+    }
+  }
+]
