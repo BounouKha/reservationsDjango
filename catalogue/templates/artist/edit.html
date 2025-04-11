@@ -3,17 +3,14 @@
 {% block title %}Modifier un artiste{% endblock %}
 
 {% block content %}
-    <h2>Modifier un artiste</h2>
+<h2>Modifier un artiste</h2>
 
-    <form action="{% url 'catalogue:artist-edit' artist.id %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="_method" value="PUT">
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Modifier</button>
+    <a href="{% url 'catalogue:artist-show' artist.id %}">Annuler</a>
+</form>
 
-        {{ form }}
-
-        <button>Modifier</button>
-        <a href="{% url 'catalogue:artist-show' artist.id %}">Annuler</a>
-    </form>
-
-    <nav><a href="{% url 'catalogue:artist-index' %}">Retour à l'index</a></nav>
+<nav><a href="{% url 'catalogue:artist-index' %}">Retour à l'index</a></nav>
 {% endblock %}

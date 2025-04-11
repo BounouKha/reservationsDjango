@@ -3,9 +3,9 @@
 {% block title %}Liste des artistes{% endblock %}
 
 {% block content %}
-    <h2>{{ title }}</h2>
-     <ul>
-        <li><a href="{% url 'catalogue:artist-create' %}">Ajouter</a></li>
+    <h2>Liste des artistes</h2>
+    <ul>
+        <li><a href="{% url 'catalogue:artist-create' %}">Ajouter</a></li>    
     </ul>
 
     <table>
@@ -24,7 +24,7 @@
                 </td>
             </tr>
         {% empty %}
-	    <tr>
+            <tr>
 	         <td colspan="2">Sorry, no artist in the database.</td>
 	    </tr>
         {% endfor %}

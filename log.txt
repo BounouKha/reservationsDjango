@@ -1,0 +1,24 @@
+PS C:\Users\khali\OneDrive\Bureau\reservationsDjango-groupe\reservations> git log
+commit e81e414394f6c05333cfd5cd54e5c3f45777bb34 (HEAD -> mohamed)
+Author: Khalid Bounou <khalidbounou@gmail.com>
+Date:   Thu Apr 10 12:48:23 2025 +0200
+
+    Ajout des fichiers modifiés
+
+commit 607cc2c0a45ee470d44c493d913097eb0756dbab
+Author: Khalid Bounou <khalidbounou@gmail.com>
+Date:   Wed Apr 9 15:57:42 2025 +0200
+
+    Données initiales ArtistType
+
+commit ca8e774bc7929e58d8c89d4d3869f695d19b1d7c
+Author: Khalid Bounou <khalidbounou@gmail.com>
+Date:   Wed Apr 9 12:50:16 2025 +0200
+
+    Modèle Review +Relation ManyToOne with User & Show
+
+commit 75a0ead527eafca2679f96dd4cd810620d73c98a
+Author: Khalid Bounou <khalidbounou@gmail.com>
+Date:   Wed Apr 9 10:49:04 2025 +0200
+
+    View & template representation with shows & location

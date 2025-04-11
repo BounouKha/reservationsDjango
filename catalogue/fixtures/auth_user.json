@@ -3,8 +3,8 @@
     "model": "auth.user",
     "pk": 1,
     "fields": {
-        "password": "pbkdf2_sha256$1000000$iD86DJDlsLbFt5QGTHGLtz$7RwvCAChoX9akK+NWZfiYn/1reRy3i0zaMmDxEwUPjI=",
-        "last_login": "2024-11-16T16:29:53Z",
+        "password": "pbkdf2_sha256$870000$Uydy7gb3CjJFM5jTsHj5sP$vGQKbXFEVylbhVcsWBl2rEIF9FFRy3D93AKroHLny+I=",
+        "last_login": "2024-11-10T06:15:36Z",
         "is_superuser": true,
         "username": "admin",
         "first_name": "Bob",
@@ -12,7 +12,7 @@
         "email": "bob@sull.com",
         "is_staff": true,
         "is_active": true,
-        "date_joined": "2024-11-16T16:23:37Z",
+        "date_joined": "2024-11-10T06:13:17Z",
         "groups": [
             1
         ],
@@ -23,7 +23,7 @@
     "model": "auth.user",
     "pk": 2,
     "fields": {
-        "password": "pbkdf2_sha256$1000000$yFDzOLWjjyQ4C4gOqupJqz$TSi84jLwIs2TgHO0B5L+DVMtFJnW1FEF1fO94qSzgvE=",
+        "password": "pbkdf2_sha256$870000$tlpWHnnfJp3H8glhUHPoOA$8uuwaxBzOIQg4W9YMAgYEzoTc46ibkJFcAgAyFA/PPU=",
         "last_login": null,
         "is_superuser": false,
         "username": "anna",
@@ -32,7 +32,7 @@
         "email": "anna.lyse@sull.com",
         "is_staff": false,
         "is_active": true,
-        "date_joined": "2024-11-16T21:49:50Z",
+        "date_joined": "2024-11-10T15:14:59Z",
         "groups": [
             2
         ],

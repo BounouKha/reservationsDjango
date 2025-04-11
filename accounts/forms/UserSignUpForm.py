@@ -1,33 +1,34 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from catalogue.models import UserMeta
 from django.db import models
 
 
-# Définition des choix de langue
-class Language(models.TextChoices):
-    NONE = "", "Choisissez votre langue"
-    FRENCH = "fr", "Français"
-    ENGLISH = "en", "English"
-    DUTCH = "nl", "Nederlands"
-
-
 class UserSignUpForm(UserCreationForm):
-    username = forms.CharField(max_length=30, label="Login")
-    first_name = forms.CharField(max_length=60, label="Prénom")
-    last_name = forms.CharField(max_length=60, label="Nom")
-    email = forms.EmailField(label="Adresse e-mail")
-    langue = forms.ChoiceField(choices=Language.choices, label="Langue préférée")
+    class Language(models.TextChoices):
+        NONE = "", "Choisissez votre langue"
+        FRENCH = "fr", "Français"
+        ENGLISH = "en", "English"
+        DUTCH = "nl", "Nederlands"
+
+    # Définir les types de champs
+    username = forms.CharField(max_length=30, label='Login')
+    first_name = forms.CharField(max_length=60, label='Prénom')
+    last_name = forms.CharField(max_length=60, label='Nom')
+    email = forms.EmailField(label='Email')
+    langue = forms.ChoiceField(choices=Language.choices, label='Langue')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        # Personnalisation des labels et des aides
         self.fields['password1'].label = 'Mot de passe'
         self.fields['password2'].label = 'Confirmation du mot de passe'
-
-        # Suppression des aides contextuelles par défaut
-        for field_name in ['username', 'password1', 'password2']:
-            self.fields[field_name].help_text = None
+        self.fields['username'].help_text = None
+        self.fields['password1'].help_text = None
+        self.fields['password2'].help_text = None
 
     class Meta:
         model = User
@@ -42,19 +43,20 @@ class UserSignUpForm(UserCreationForm):
         ]
 
     def save(self, commit=True):
-        user = super().save(commit=False)
+        user = super(UserSignUpForm, self).save(commit=False)
+
+        # Sauvegarde de l'utilisateur
         if commit:
             user.save()
 
-        # Ajouter l'utilisateur au groupe MEMBER
-        member_group, created = Group.objects.get_or_create(name='MEMBER')
-        member_group.user_set.add(user)
+            # Ajout de l'utilisateur au groupe MEMBER
+            memberGroup, created = Group.objects.get_or_create(name='MEMBER')
+            memberGroup.user_set.add(user)
 
-        # Créer les métadonnées utilisateur
-        if self.cleaned_data['langue']:
-            user_meta, created = UserMeta.objects.get_or_create(
-                user=user,
-                langue=self.cleaned_data['langue'],
-            )
+            # Ajout des métadonnées utilisateur (langue)
+            if self.cleaned_data['langue']:
+                user_meta = UserMeta(
+                    user=user, langue=self.cleaned_data['langue'])
+                user_meta.save()
 
         return user

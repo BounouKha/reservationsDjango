@@ -1,0 +1,74 @@
+[
+    {
+        "model": "catalogue.showprice",
+        "pk": 1,
+        "fields": {
+          "price": 1,
+          "show": 1
+        }
+      },
+      {
+        "model": "catalogue.showprice",
+        "pk": 2,
+        "fields": {
+          "price": 2,
+          "show": 1
+        }
+      },
+      {
+        "model": "catalogue.showprice",
+        "pk": 3,
+        "fields": {
+          "price": 3,
+          "show": 1
+        }
+      },
+      {
+        "model": "catalogue.showprice",
+        "pk": 4,
+        "fields": {
+          "price": 1,
+          "show": 2
+        }
+      },
+      {
+        "model": "catalogue.showprice",
+        "pk": 5,
+        "fields": {
+          "price": 2,
+          "show": 2
+        }
+      },
+      {
+        "model": "catalogue.showprice",
+        "pk": 6,
+        "fields": {
+          "price": 4,
+          "show": 3
+        }
+      },
+      {
+        "model": "catalogue.showprice",
+        "pk": 7,
+        "fields": {
+          "price": 5,
+          "show": 3
+        }
+      },
+      {
+        "model": "catalogue.showprice",
+        "pk": 8,
+        "fields": {
+          "price": 1,
+          "show": 4
+        }
+      },
+      {
+        "model": "catalogue.showprice",
+        "pk": 9,
+        "fields": {
+          "price": 3,
+          "show": 4
+        }
+      }
+]
