@@ -13,6 +13,7 @@ from accounts.forms.UserUpdateForm import UserUpdateForm
 from django.contrib.auth import login, logout
 
 
+
 class UserUpdateView(UserPassesTestMixin, UpdateView):
     model = User
     form_class = UserUpdateForm

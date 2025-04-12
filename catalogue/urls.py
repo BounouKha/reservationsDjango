@@ -3,7 +3,9 @@
 from django.urls import path, include
 from . import views
 from django.contrib import admin
-from .models import Artist
+from api.catalogue.views import ArtistListCreateView, ArtistRetrieveUpdateDestroyView
+from catalogue.views.show_views import show_detail
+from catalogue.models.feeds import BookableShowFeed 
 
 app_name = 'catalogue'
 
@@ -30,7 +32,9 @@ urlpatterns = [
     path('show/<int:show_id>', views.show_.show, name='show-show'),
     path('representation/', views.representation.index, name='representation-index'),
     path('representation/<int:representation_id>', views.representation.show, name='representation-show'),
-
+    path('api/artists/', ArtistListCreateView.as_view(), name='artist-list'),
+    path('api/artists/<int:pk>/', ArtistRetrieveUpdateDestroyView.as_view(), name='artist-detail'),
+    path('rss/shows/', BookableShowFeed(), name='rss_shows'),
 ]
 
 admin.site.index_title = "Projet Réservations"

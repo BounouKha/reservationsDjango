@@ -39,11 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',  
+    'django.contrib.syndication',  
 
     'catalogue',
     'accounts',
+    'rest_framework',
 ]
-
+SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -144,3 +147,21 @@ LOGOUT_REDIRECT_URL = 'home'
 # https://docs.djangoproject.com/fr/5.1/topics/email/#smtp-backend
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_FILE_PATH = "/tmp/app-messages"  # chemin de votre choix
+
+
+# REST Framework authentications & parmissions
+# https://www.django-rest-framework.org/api-guide/authentication/
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # Pour l'authentification basée sur la session
+        'rest_framework.authentication.SessionAuthentication',
+        # Pour l'authentification de base (utile pour Postman/cURL)
+        'rest_framework.authentication.BasicAuthentication',
+        # Pour l'authentification via Token
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        # Exige l'authentification pour toutes les requêtes
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
