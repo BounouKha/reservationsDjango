@@ -1,0 +1,32 @@
+{
+  "name": "reservationsDjango-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for the Reservations Django project using React",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "test": "jest"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2",
+    "babel-loader": "^8.2.2",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "jest": "^26.6.0"
+  },
+  "keywords": [
+    "react",
+    "django",
+    "frontend"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

@@ -1,5 +1,6 @@
 from django.db import models
 from .location import *
+from django.urls import reverse
 
 class ShowManager(models.Manager):
     def get_by_natural_key(self, slug, created_in):
@@ -42,6 +43,9 @@ class Show(models.Model):
                 name="unique_slug_created_in",
             ),
         ]
-    
+
     def natural_key(self):
         return (self.slug, self.created_in)
+    
+    def get_absolute_url(self):
+        return reverse('show_detail', kwargs={'slug': self.slug, 'created_in': self.created_in})

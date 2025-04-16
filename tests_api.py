@@ -12,3 +12,5 @@ class ArtistAPITests(APITestCase):
         Artist.objects.create(firstname='Jane', lastname='Smith')
         response = self.client.get('/catalogue/api/artists/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+

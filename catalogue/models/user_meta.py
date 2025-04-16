@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.db import models
 
 
@@ -11,3 +12,8 @@ class UserMeta(models.Model):
 
     class Meta:
         db_table = "user_meta"
+
+        
+def user_meta_list(request):
+    user_meta = UserMeta.objects.all().values('id', 'user__username', 'langue')
+    return JsonResponse(list(user_meta), safe=False)

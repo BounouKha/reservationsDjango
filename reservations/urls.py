@@ -53,8 +53,6 @@ urlpatterns = [
         name="password_reset_complete",
     ),
     path('admin/', admin.site.urls),
-
-
 ]
 
 admin.site.index_title = "Projet Réservations"

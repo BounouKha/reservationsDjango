@@ -25,3 +25,4 @@ def show(request, show_id):
         'title':title 
     })
 
+    
