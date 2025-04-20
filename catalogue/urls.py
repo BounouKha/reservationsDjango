@@ -3,12 +3,13 @@
 from django.urls import path, include
 from . import views
 from django.contrib import admin
-from api.catalogue.views import ArtistListCreateView, ArtistRetrieveUpdateDestroyView
+from api.catalogue.views.views import ArtistListCreateView, ArtistRetrieveUpdateDestroyView
 from catalogue.views.show_views import show_detail
 from catalogue.models.feeds import BookableShowFeed 
 from catalogue.views.user_meta_views import user_meta_list
 from catalogue.views.artist_views import artist_list
 from catalogue.views.representation_views import representation_list
+from api.catalogue.views.cart_api_views import CartView
 
 app_name = 'catalogue'
 
@@ -44,7 +45,7 @@ urlpatterns = [
     path('api/user-meta/', user_meta_list, name='user_meta_list'),
     path('api/artists/', artist_list, name='artist-list-api'),
     path('api/representations/', representation_list, name='representation-list'),
-    
+    path('api/cart/', CartView.as_view(), name='cart'),
 ]
 
 admin.site.index_title = "Projet Réservations"
