@@ -15,5 +15,7 @@ class UserMeta(models.Model):
 
         
 def user_meta_list(request):
-    user_meta = UserMeta.objects.all().values('id', 'user__username', 'langue')
+    user_meta = UserMeta.objects.all().values(
+        'id', 'user__username', 'user__first_name', 'user__last_name', 'langue'
+    )
     return JsonResponse(list(user_meta), safe=False)

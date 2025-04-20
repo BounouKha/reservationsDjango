@@ -1,5 +1,8 @@
 from django.db import models
 from .type import *
+from django.http import JsonResponse
+from .show import Show  
+
 
 class ArtistManager(models.Manager):
     def get_by_natural_key(self, firstname, lastname):
@@ -8,6 +11,7 @@ class ArtistManager(models.Manager):
 class Artist(models.Model):
     firstname = models.CharField(max_length=60)
     lastname = models.CharField(max_length=60)
+    shows = models.ManyToManyField(Show, related_name='artists', through='ArtistShow')  # Ajout de la relation Many-to-Many
     
 
     objects = ArtistManager()
@@ -27,3 +31,7 @@ class Artist(models.Model):
 
     def natural_key(self):
         return (self.firstname, self.lastname)
+
+def artist_list(request):
+    artists = Artist.objects.all().values('id', 'firstname', 'lastname')
+    return JsonResponse(list(Artist), safe=False)

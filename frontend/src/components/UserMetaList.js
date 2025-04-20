@@ -1,22 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import '../UserMetaList.css';
 
 const UserMetaList = () => {
   const [userMeta, setUserMeta] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/catalogue/api/user-meta/')
-      .then((response) => response.json())
-      .then((data) => setUserMeta(data))
+    fetch('http://127.0.0.1:8000/catalogue/api/user-meta/')
+      .then((response) => {
+        console.log('Response:', response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Data:', data);
+        setUserMeta(data);
+        setLoading(false);
+      })
       .catch((error) => console.error('Error fetching user meta:', error));
   }, []);
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div>
-      <h1>User Meta List</h1>
+    <div className="user-meta-container">
+      <h1>User List</h1>
       <ul>
         {userMeta.map((meta) => (
           <li key={meta.id}>
-            {meta.user__username} - {meta.langue}
+            <span className="font-medium">{meta.user__first_name} {meta.user__last_name}</span>
+            <span className="text-gray-500"> - Language: {meta.langue}</span>
           </li>
         ))}
       </ul>

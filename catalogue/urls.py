@@ -6,6 +6,9 @@ from django.contrib import admin
 from api.catalogue.views import ArtistListCreateView, ArtistRetrieveUpdateDestroyView
 from catalogue.views.show_views import show_detail
 from catalogue.models.feeds import BookableShowFeed 
+from catalogue.views.user_meta_views import user_meta_list
+from catalogue.views.artist_views import artist_list
+from catalogue.views.representation_views import representation_list
 
 app_name = 'catalogue'
 
@@ -32,10 +35,15 @@ urlpatterns = [
     path('show/<int:show_id>', views.show_.show, name='show-show'),
     path('representation/', views.representation.index, name='representation-index'),
     path('representation/<int:representation_id>', views.representation.show, name='representation-show'),
-    path('api/artists/', ArtistListCreateView.as_view(), name='artist-list'),
-    path('api/artists/<int:pk>/', ArtistRetrieveUpdateDestroyView.as_view(), name='artist-detail'),
-    path('api/user-meta/', views.user_meta_list, name='user_meta_list'),
+   
     path('rss/shows/', BookableShowFeed(), name='rss_shows'),
+
+
+    path('api/artists/list', ArtistListCreateView.as_view(), name='artist-list'),
+    path('api/artists/<int:pk>/', ArtistRetrieveUpdateDestroyView.as_view(), name='artist-detail'),
+    path('api/user-meta/', user_meta_list, name='user_meta_list'),
+    path('api/artists/', artist_list, name='artist-list-api'),
+    path('api/representations/', representation_list, name='representation-list'),
     
 ]
 

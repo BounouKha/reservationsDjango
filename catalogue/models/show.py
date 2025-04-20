@@ -49,3 +49,7 @@ class Show(models.Model):
     
     def get_absolute_url(self):
         return reverse('show_detail', kwargs={'slug': self.slug, 'created_in': self.created_in})
+
+   
+
+

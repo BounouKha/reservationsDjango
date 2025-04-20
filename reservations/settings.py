@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',  
     'django.contrib.syndication',  
 
+    'corsheaders',
     'catalogue',
     'accounts',
     'rest_framework',
@@ -55,7 +56,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True   # Autoriser toutes les origines (pour le développement uniquement)
 
 ROOT_URLCONF = 'reservations.urls'
 
@@ -164,4 +169,10 @@ REST_FRAMEWORK = {
         # Exige l'authentification pour toutes les requêtes
         'rest_framework.permissions.IsAuthenticated',
     ],
+}
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 30,  # Nombre d'éléments par page
 }

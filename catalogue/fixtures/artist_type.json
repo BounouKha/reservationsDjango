@@ -1,250 +1,1202 @@
 [
-    {
-      "model": "catalogue.artist_type",
-      "pk": 1,
-      "fields": {
-        "artist": [
-          "Daniel",
-          "Marcelin"
-        ],
-        "type": [
-          "auteur"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 2,
-      "fields": {
-        "artist": [
-          "Philippe",
-          "Laurent"
-        ],
-        "type": [
-          "auteur"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 3,
-      "fields": {
-        "artist": [
-          "Daniel",
-          "Marcelin"
-        ],
-        "type": [
-          "scénographe"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 5,
-      "fields": {
-        "artist": [
-          "Daniel",
-          "Marcelin"
-        ],
-        "type": [
-          "comédien"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 4,
-      "fields": {
-        "artist": [
-          "Philippe",
-          "Laurent"
-        ],
-        "type": [
-          "scénographe"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 6,
-      "fields": {
-        "artist": [
-          "Marius",
-          "Von Mayenburg"
-        ],
-        "type": [
-          "auteur"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 7,
-      "fields": {
-        "artist": [
-          "Olivier",
-          "Boudon"
-        ],
-        "type": [
-          "scénographe"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 8,
-      "fields": {
-        "artist": [
-          "Anne Marie",
-          "Loop"
-        ],
-        "type": [
-          "comédien"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 9,
-      "fields": {
-        "artist": [
-          "Pietro",
-          "Varasso"
-        ],
-        "type": [
-          "comédien"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 10,
-      "fields": {
-        "artist": [
-          "Laurent",
-          "Caron"
-        ],
-        "type": [
-          "comédien"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 11,
-      "fields": {
-        "artist": [
-          "lena",
-          "Perez"
-        ],
-        "type": [
-          "comédien"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 12,
-      "fields": {
-        "artist": [
-          "Guillaume",
-          "Alexandre"
-        ],
-        "type": [
-          "comédien"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 13,
-      "fields": {
-        "artist": [
-          "Claude",
-          "Semal"
-        ],
-        "type": [
-          "auteur"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 14,
-      "fields": {
-        "artist": [
-          "Laurence",
-          "Warin"
-        ],
-        "type": [
-          "scénographe"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 15,
-      "fields": {
-        "artist": [
-          "Claude",
-          "Semal"
-        ],
-        "type": [
-          "comédien"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 16,
-      "fields": {
-        "artist": [
-          "Pierre",
-          "Wayburn"
-        ],
-        "type": [
-          "auteur"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 17,
-      "fields": {
-        "artist": [
-          "Gwendoline",
-          "Gauthier"
-        ],
-        "type": [
-          "auteur"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 18,
-      "fields": {
-        "artist": [
-          "Pierre",
-          "Wayburn"
-        ],
-        "type": [
-          "comédien"
-        ]
-      }
-    },
-    {
-      "model": "catalogue.artist_type",
-      "pk": 19,
-      "fields": {
-        "artist": [
-          "Gwendoline",
-          "Gauthier"
-        ],
-        "type": [
-          "comédien"
-        ]
-      }
+  {
+    "model": "catalogue.artist_type",
+    "pk": 1,
+    "fields": {
+      "artist": 1,
+      "type": [
+        "auteur"
+      ]
     }
-    ]
-    
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 2,
+    "fields": {
+      "artist": 2,
+      "type": [
+        "auteur"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 3,
+    "fields": {
+      "artist": 1,
+      "type": [
+        "scénographe"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 5,
+    "fields": {
+      "artist": 1,
+      "type": [
+        "comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 4,
+    "fields": {
+      "artist": 2,
+      "type": [
+        "scénographe"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 6,
+    "fields": {
+      "artist": 3,
+      "type": [
+        "auteur"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 7,
+    "fields": {
+      "artist": 4,
+      "type": [
+        "scénographe"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 8,
+    "fields": {
+      "artist": 5,
+      "type": [
+        "comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 9,
+    "fields": {
+      "artist": 6,
+      "type": [
+        "comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 10,
+    "fields": {
+      "artist": 7,
+      "type": [
+        "comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 11,
+    "fields": {
+      "artist": 10,
+      "type": [
+        "comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 12,
+    "fields": {
+      "artist": 9,
+      "type": [
+        "comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 13,
+    "fields": {
+      "artist": 10,
+      "type": [
+        "auteur"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 14,
+    "fields": {
+      "artist": 11,
+      "type": [
+        "scénographe"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 15,
+    "fields": {
+      "artist": 10,
+      "type": [
+        "comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 16,
+    "fields": {
+      "artist": 12,
+      "type": [
+        "auteur"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 17,
+    "fields": {
+      "artist": 13,
+      "type": [
+        "auteur"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 18,
+    "fields": {
+      "artist": 12,
+      "type": [
+        "comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 19,
+    "fields": {
+      "artist": 13,
+      "type": [
+        "comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 20,
+    "fields": {
+      "artist": 8,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 21,
+    "fields": {
+      "artist": 14,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 22,
+    "fields": {
+      "artist": 15,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 23,
+    "fields": {
+      "artist": 16,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 24,
+    "fields": {
+      "artist": 17,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 25,
+    "fields": {
+      "artist": 18,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 26,
+    "fields": {
+      "artist": 19,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 27,
+    "fields": {
+      "artist": 20,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 28,
+    "fields": {
+      "artist": 21,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 29,
+    "fields": {
+      "artist": 22,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 30,
+    "fields": {
+      "artist": 23,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 31,
+    "fields": {
+      "artist": 24,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 32,
+    "fields": {
+      "artist": 25,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 33,
+    "fields": {
+      "artist": 26,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 34,
+    "fields": {
+      "artist": 27,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 35,
+    "fields": {
+      "artist": 28,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 36,
+    "fields": {
+      "artist": 29,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 37,
+    "fields": {
+      "artist": 30,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 38,
+    "fields": {
+      "artist": 31,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 39,
+    "fields": {
+      "artist": 32,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 40,
+    "fields": {
+      "artist": 33,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 41,
+    "fields": {
+      "artist": 34,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 42,
+    "fields": {
+      "artist": 35,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 43,
+    "fields": {
+      "artist": 36,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 44,
+    "fields": {
+      "artist": 37,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 45,
+    "fields": {
+      "artist": 38,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 46,
+    "fields": {
+      "artist": 39,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 47,
+    "fields": {
+      "artist": 40,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 48,
+    "fields": {
+      "artist": 41,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 49,
+    "fields": {
+      "artist": 42,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 50,
+    "fields": {
+      "artist": 43,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 51,
+    "fields": {
+      "artist": 44,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 52,
+    "fields": {
+      "artist": 45,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 53,
+    "fields": {
+      "artist": 46,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 54,
+    "fields": {
+      "artist": 47,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 55,
+    "fields": {
+      "artist": 48,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 56,
+    "fields": {
+      "artist": 49,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 57,
+    "fields": {
+      "artist": 50,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 58,
+    "fields": {
+      "artist": 51,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 59,
+    "fields": {
+      "artist": 52,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 60,
+    "fields": {
+      "artist": 53,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 61,
+    "fields": {
+      "artist": 54,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 62,
+    "fields": {
+      "artist": 55,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 63,
+    "fields": {
+      "artist": 56,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 64,
+    "fields": {
+      "artist": 57,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 65,
+    "fields": {
+      "artist": 58,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 66,
+    "fields": {
+      "artist": 59,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 67,
+    "fields": {
+      "artist": 60,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 68,
+    "fields": {
+      "artist": 61,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 69,
+    "fields": {
+      "artist": 62,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 70,
+    "fields": {
+      "artist": 63,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 71,
+    "fields": {
+      "artist": 64,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 72,
+    "fields": {
+      "artist": 65,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 73,
+    "fields": {
+      "artist": 66,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 74,
+    "fields": {
+      "artist": 67,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 75,
+    "fields": {
+      "artist": 68,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 76,
+    "fields": {
+      "artist": 69,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 77,
+    "fields": {
+      "artist": 70,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 78,
+    "fields": {
+      "artist": 71,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 79,
+    "fields": {
+      "artist": 72,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 80,
+    "fields": {
+      "artist": 73,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 81,
+    "fields": {
+      "artist": 74,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 82,
+    "fields": {
+      "artist": 75,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 83,
+    "fields": {
+      "artist": 76,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 84,
+    "fields": {
+      "artist": 77,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 85,
+    "fields": {
+      "artist": 78,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 86,
+    "fields": {
+      "artist": 79,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 87,
+    "fields": {
+      "artist": 80,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 88,
+    "fields": {
+      "artist": 81,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 89,
+    "fields": {
+      "artist": 82,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 90,
+    "fields": {
+      "artist": 83,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 91,
+    "fields": {
+      "artist": 84,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 92,
+    "fields": {
+      "artist": 85,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 93,
+    "fields": {
+      "artist": 86,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 94,
+    "fields": {
+      "artist": 87,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 95,
+    "fields": {
+      "artist": 88,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 96,
+    "fields": {
+      "artist": 89,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 97,
+    "fields": {
+      "artist": 90,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 98,
+    "fields": {
+      "artist": 91,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 99,
+    "fields": {
+      "artist": 92,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 100,
+    "fields": {
+      "artist": 93,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 101,
+    "fields": {
+      "artist": 94,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 102,
+    "fields": {
+      "artist": 95,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 103,
+    "fields": {
+      "artist": 96,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 104,
+    "fields": {
+      "artist": 97,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 105,
+    "fields": {
+      "artist": 98,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 106,
+    "fields": {
+      "artist": 99,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 107,
+    "fields": {
+      "artist": 100,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 108,
+    "fields": {
+      "artist": 101,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 109,
+    "fields": {
+      "artist": 102,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 110,
+    "fields": {
+      "artist": 103,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 111,
+    "fields": {
+      "artist": 104,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 112,
+    "fields": {
+      "artist": 105,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 113,
+    "fields": {
+      "artist": 106,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 114,
+    "fields": {
+      "artist": 107,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 115,
+    "fields": {
+      "artist": 108,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 116,
+    "fields": {
+      "artist": 109,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 117,
+    "fields": {
+      "artist": 110,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 118,
+    "fields": {
+      "artist": 111,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 119,
+    "fields": {
+      "artist": 112,
+      "type": [
+        "Comédien"
+      ]
+    }
+  },
+  {
+    "model": "catalogue.artist_type",
+    "pk": 120,
+    "fields": {
+      "artist": 113,
+      "type": [
+        "Comédien"
+      ]
+    }
+  }
+]

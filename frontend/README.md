@@ -1,35 +1,70 @@
-# Frontend React Application
+# Getting Started with Create React App
 
-This directory contains the frontend of the Reservations Django project, built using React. Below are the key components and their purposes:
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Directory Structure
+## Available Scripts
 
-- **public/**: Contains static files, including the main HTML file.
-  - **index.html**: The entry point for the React application.
+In the project directory, you can run:
 
-- **src/**: Contains the source code for the React application.
-  - **components/**: Contains React components.
-    - **App.js**: The main component that serves as the root of the application.
-  - **index.js**: The entry point for rendering the React application.
-  - **styles/**: Contains CSS files for styling the components.
-    - **App.css**: Styles specific to the App component.
+### `npm start`
 
-- **package.json**: Configuration file for npm, listing dependencies and scripts for the React project.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-- **webpack.config.js**: Configuration file for Webpack, specifying how to bundle the React application.
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-## Getting Started
+### `npm test`
 
-1. **Installation**: Run `npm install` in the `frontend` directory to install the necessary dependencies.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-2. **Development**: Use `npm start` to run the application in development mode. The app will be available at `http://localhost:3000`.
+### `npm run build`
 
-3. **Building**: Use `npm run build` to create a production build of the application.
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Contributing
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-Feel free to contribute to this project by submitting issues or pull requests. Make sure to follow the coding standards and best practices.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## License
+### `npm run eject`
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
