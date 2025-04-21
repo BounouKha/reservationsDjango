@@ -11,6 +11,7 @@ from .forms import UserUpdateForm
 from django.contrib.auth import logout
 from accounts.forms.UserUpdateForm import UserUpdateForm
 from django.contrib.auth import login, logout
+from django.http import JsonResponse
 
 
 
@@ -65,3 +66,7 @@ def delete(request, pk):
 
         logout(request)
         return redirect('home')
+
+
+def check_auth(request):
+    return JsonResponse({"authenticated": True})

@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'catalogue.scripts.middleware.MergeCartMiddleware', # Middleware pour fusionner le panier
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True   # Autoriser toutes les origines (pour le développement uniquement)
@@ -176,3 +177,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 30,  # Nombre d'éléments par page
 }
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_CREDENTIALS = True

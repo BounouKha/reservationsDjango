@@ -1,6 +1,8 @@
 """reservations.catalogue URL Configuration
 """
 from django.urls import path, include
+
+from catalogue.views.views_cart import add_to_cart, get_cart, remove_cart_item, update_cart_item
 from . import views
 from django.contrib import admin
 from api.catalogue.views.views import ArtistListCreateView, ArtistRetrieveUpdateDestroyView
@@ -10,6 +12,7 @@ from catalogue.views.user_meta_views import user_meta_list
 from catalogue.views.artist_views import artist_list
 from catalogue.views.representation_views import representation_list
 from api.catalogue.views.cart_api_views import CartView
+
 
 app_name = 'catalogue'
 
@@ -45,7 +48,13 @@ urlpatterns = [
     path('api/user-meta/', user_meta_list, name='user_meta_list'),
     path('api/artists/', artist_list, name='artist-list-api'),
     path('api/representations/', representation_list, name='representation-list'),
-    path('api/cart/', CartView.as_view(), name='cart'),
+    
+    path('api/cart/add/', add_to_cart, name='add-to-cart'),
+    path('api/cart/', get_cart, name='get-cart'),
+    path('api/cart/update/', update_cart_item, name='update-cart-item'),
+    path('api/cart/remove/', remove_cart_item, name='remove-cart-item'),
+    
+    
 ]
 
 admin.site.index_title = "Projet Réservations"

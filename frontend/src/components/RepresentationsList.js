@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import '../RepresentationsList.css'; // Importer le fichier CSS pour les animations
+import '../RepresentationsList.css'; // Importer le fichier CSS pour les animations// Importer le service pour ajouter au panier
+import { addToCart } from '../services/api';
 
 // Fonction pour formater la date et l'heure
 const formatDateTime = (isoString) => {
@@ -26,6 +27,16 @@ const RepresentationsList = () => {
   }, []);
 
   const today = new Date(); // Date actuelle
+
+  const handleAddToCart = async (representationId) => {
+    try {
+      const response = await addToCart(representationId);
+      alert(response.message);
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout au panier :', error);
+      alert('Impossible d\'ajouter au panier.');
+    }
+  };
 
   if (loading) {
     return (
@@ -111,7 +122,7 @@ const RepresentationsList = () => {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">{selectedRepresentation.show__title}</h5>
+                <h5 className="modal-title">{selectedRepresentation.show.title}</h5>
                 <button
                   type="button"
                   className="btn-close"
@@ -134,6 +145,13 @@ const RepresentationsList = () => {
                 </p>
               </div>
               <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => handleAddToCart(selectedRepresentation.id)} // Ajouter au panier
+                >
+                  Ajouter au panier
+                </button>
                 <button
                   type="button"
                   className="btn btn-secondary"
