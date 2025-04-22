@@ -1,6 +1,8 @@
+from datetime import timedelta
 from django.db import models
 from .location import *
 from django.urls import reverse
+from django.utils.timezone import now
 
 class ShowManager(models.Manager):
     def get_by_natural_key(self, slug, created_in):
@@ -17,6 +19,12 @@ class Show(models.Model):
     bookable = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True)
+
+    def save(self, *args, **kwargs):
+        # Vérifier si la date est dans moins de 30 minutes
+        if self.schedule <= now() + timedelta(minutes=30):
+            self.bookable = False
+        super().save(*args, **kwargs)
 
     artist_types = models.ManyToManyField(
         "ArtistType",

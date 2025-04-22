@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../RepresentationsList.css'; // Importer le fichier CSS pour les animations// Importer le service pour ajouter au panier
-import { addToCart } from '../services/api';
+import { addToCart } from '../services/cartService';
 
 // Fonction pour formater la date et l'heure
 const formatDateTime = (isoString) => {
@@ -28,9 +28,21 @@ const RepresentationsList = () => {
 
   const today = new Date(); // Date actuelle
 
-  const handleAddToCart = async (representationId) => {
+  const handleAddToCart = async (selectedRepresentation) => {
     try {
-      const response = await addToCart(representationId);
+      console.log('Représentation :', selectedRepresentation);
+  
+      const representationDetails = {
+        id: selectedRepresentation.id,
+        title: selectedRepresentation.show?.title || 'Titre indisponible',
+        schedule: selectedRepresentation.schedule || 'Date inconnue',
+        location: selectedRepresentation.location || 'Lieu inconnu',
+        locality: selectedRepresentation.locality || 'Localité inconnue',
+      };
+  
+      console.log('Détails de la représentation :', representationDetails);
+  
+      const response = await addToCart(selectedRepresentation.id, representationDetails);
       alert(response.message);
     } catch (error) {
       console.error('Erreur lors de l\'ajout au panier :', error);
@@ -145,21 +157,31 @@ const RepresentationsList = () => {
                 </p>
               </div>
               <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => handleAddToCart(selectedRepresentation.id)} // Ajouter au panier
-                >
-                  Ajouter au panier
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setSelectedRepresentation(null)} // Fermer le modal
-                >
-                  Fermer
-                </button>
-              </div>
+  {selectedRepresentation.show.bookable ? (
+    <button
+      type="button"
+      className="btn btn-primary"
+      onClick={() => handleAddToCart(selectedRepresentation)} // Ajouter au panier
+    >
+      Ajouter au panier
+    </button>
+  ) : (
+    <button
+      type="button"
+      className="btn btn-secondary"
+      disabled
+    >
+      Non réservable
+    </button>
+  )}
+  <button
+    type="button"
+    className="btn btn-secondary"
+    onClick={() => setSelectedRepresentation(null)} // Fermer le modal
+  >
+    Fermer
+  </button>
+</div>
             </div>
           </div>
         </div>

@@ -11,3 +11,4 @@ class MergeCartMiddleware:
             # Rediriger vers la vue de fusion du panier
             return redirect(reverse('merge_cart'))
         return self.get_response(request)
+    
