@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import '../RepresentationsList.css'; // Importer le fichier CSS pour les animations// Importer le service pour ajouter au panier
-import { addToCart } from '../services/cartService';
+import '../RepresentationsList.css'; // Importer le fichier CSS pour les animations
+import { addToCart } from '../services/cartService'; // Importer le service pour ajouter au panier
 
 // Fonction pour formater la date et l'heure
 const formatDateTime = (isoString) => {
@@ -15,6 +15,23 @@ const RepresentationsList = () => {
   const [loading, setLoading] = useState(true);
   const [showPast, setShowPast] = useState(false); // État pour le filtre "Passés"
   const [selectedRepresentation, setSelectedRepresentation] = useState(null); // Spectacle sélectionné pour le modal
+  const [quantities, setQuantities] = useState({}); // État pour les quantités par catégorie
+
+  // Fonction pour gérer l'incrémentation
+  const incrementQuantity = (categoryId) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [categoryId]: (prev[categoryId] || 0) + 1,
+    }));
+  };
+
+  // Fonction pour gérer la décrémentation
+  const decrementQuantity = (categoryId) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [categoryId]: Math.max((prev[categoryId] || 0) - 1, 0), // Empêche les valeurs négatives
+    }));
+  };
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/catalogue/api/representations/')
@@ -28,21 +45,33 @@ const RepresentationsList = () => {
 
   const today = new Date(); // Date actuelle
 
-  const handleAddToCart = async (selectedRepresentation) => {
+
+
+
+  const handleAddToCart = async (representationId) => {
     try {
-      console.log('Représentation :', selectedRepresentation);
-  
+      console.log('Représentation ID :', representationId);
+      console.log('Quantités sélectionnées :', quantities);
+
       const representationDetails = {
-        id: selectedRepresentation.id,
+        id: representationId,
         title: selectedRepresentation.show?.title || 'Titre indisponible',
         schedule: selectedRepresentation.schedule || 'Date inconnue',
         location: selectedRepresentation.location || 'Lieu inconnu',
         locality: selectedRepresentation.locality || 'Localité inconnue',
+        quantities: Object.entries(quantities).map(([type, count]) => ({
+          type,
+          count,
+          price: selectedRepresentation.show.prices.find((price) => price.type === type)?.price || 0,
+        })),
       };
-  
-      console.log('Détails de la représentation :', representationDetails);
-  
-      const response = await addToCart(selectedRepresentation.id, representationDetails);
+
+      // Vérifier que quantities est bien un tableau
+      if (!Array.isArray(representationDetails.quantities)) {
+        representationDetails.quantities = [];
+      }
+
+      const response = await addToCart(representationId, representationDetails);
       alert(response.message);
     } catch (error) {
       console.error('Erreur lors de l\'ajout au panier :', error);
@@ -155,33 +184,56 @@ const RepresentationsList = () => {
                     ? selectedRepresentation.show.artists.map(artist => `${artist.firstname} ${artist.lastname}`).join(', ')
                     : 'Aucun artiste disponible'}
                 </p>
+
+                {selectedRepresentation.show.bookable ? (
+                  <>
+                    <h5>Prix disponibles :</h5>
+                    {selectedRepresentation.show.prices.map((price, index) => (
+                      <div key={index} className="mb-3">
+                        <label>
+                          {price.type} ({price.price}€) :
+                        </label>
+                        <div className="d-flex align-items-center">
+                          <button
+                            type="button"
+                            className="btn btn-secondary me-2"
+                            onClick={() => decrementQuantity(price.type)}
+                          >
+                            -
+                          </button>
+                          <span>{quantities[price.type] || 0}</span>
+                          <button
+                            type="button"
+                            className="btn btn-secondary ms-2"
+                            onClick={() => incrementQuantity(price.type)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      className="btn btn-primary mt-3"
+                      onClick={() => handleAddToCart(selectedRepresentation.id)}
+                    >
+                      Ajouter au panier
+                    </button>
+                  </>
+                ) : (
+                  <button type="button" className="btn btn-secondary" disabled>
+                    Non réservable
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  className="btn btn-secondary mt-3"
+                  onClick={() => setSelectedRepresentation(null)}
+                >
+                  Fermer
+                </button>
               </div>
-              <div className="modal-footer">
-  {selectedRepresentation.show.bookable ? (
-    <button
-      type="button"
-      className="btn btn-primary"
-      onClick={() => handleAddToCart(selectedRepresentation)} // Ajouter au panier
-    >
-      Ajouter au panier
-    </button>
-  ) : (
-    <button
-      type="button"
-      className="btn btn-secondary"
-      disabled
-    >
-      Non réservable
-    </button>
-  )}
-  <button
-    type="button"
-    className="btn btn-secondary"
-    onClick={() => setSelectedRepresentation(null)} // Fermer le modal
-  >
-    Fermer
-  </button>
-</div>
             </div>
           </div>
         </div>
