@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { formatDateTime, getCart } from '../services/cartService';
 
-
 const Cart = () => {
   const [cart, setCart] = useState({ items: [] });
   const [loading, setLoading] = useState(true);
-  
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -15,7 +13,22 @@ const Cart = () => {
         // Utiliser la fonction getCart du cartService
         const fetchedCart = await getCart();
         console.log('Panier récupéré :', fetchedCart);
-        setCart(fetchedCart);
+
+        // Filtrer les articles dont la date est dépassée
+        const now = new Date();
+        const validItems = fetchedCart.items.filter((item) => {
+          const itemDate = new Date(item.schedule);
+          return itemDate > now; // Garder uniquement les articles dont la date n'est pas dépassée
+        });
+
+        // Si des articles ont été supprimés, mettre à jour le localStorage
+        if (validItems.length !== fetchedCart.items.length) {
+          const updatedCart = { ...fetchedCart, items: validItems };
+          localStorage.setItem('cart', JSON.stringify(updatedCart));
+          setCart(updatedCart);
+        } else {
+          setCart(fetchedCart);
+        }
       } catch (error) {
         console.error('Erreur lors de la récupération du panier :', error);
         setCart({ items: [] }); // En cas d'erreur, afficher un panier vide
@@ -75,52 +88,53 @@ const Cart = () => {
         <p>Votre panier est vide.</p>
       ) : (
         <ul className="list-group">
- {cart.items.map((item, index) => {
-  // Vérification de la structure des données
-  if (!item.representationId || typeof item.quantity !== 'number') {
-    console.warn('Article invalide dans le panier :', item);
-    return (
-      <li key={`invalid-item-${index}`} className="list-group-item text-danger">
-        Article invalide dans le panier
-      </li>
-    );
-  }
+          {cart.items.map((item, index) => {
+            // Vérification de la structure des données
+            if (!item.representationId || typeof item.quantity !== 'number') {
+              console.warn('Article invalide dans le panier :', item);
+              return (
+                <li key={`invalid-item-${index}`} className="list-group-item text-danger">
+                  Article invalide dans le panier
+                </li>
+              );
+            }
 
-  return (
-    <li
-      key={item.representationId} // Utiliser representationId comme clé unique
-      className="list-group-item d-flex justify-content-between align-items-center"
-    >
-      <div>
-        <h5>{item.title || 'Titre indisponible'}</h5>
-        <p>Date : {item.schedule ? formatDateTime(item.schedule) : 'Date inconnue'}</p>
-        <p>Quantité : {item.quantity}</p>
-      </div>
-      <div>
-        <button
-          className="btn btn-sm btn-primary me-2"
-          onClick={() => handleUpdateCartItem(item.representationId, item.quantity + 1)}
-        >
-          +
-        </button>
-        <button
-          className="btn btn-sm btn-secondary me-2"
-          onClick={() => handleUpdateCartItem(item.representationId, item.quantity - 1)}
-          disabled={item.quantity <= 1}
-        >
-          -
-        </button>
-        <button
-          className="btn btn-sm btn-danger"
-          onClick={() => handleRemoveFromCart(item.representationId)}
-        >
-          Supprimer
-        </button>
-      </div>
-    </li>
-  );
-})}
-</ul>
+            return (
+              <li
+                key={item.representationId} // Utiliser representationId comme clé unique
+                className="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <div>
+                  <h5>{item.title || 'Titre indisponible'}</h5>
+                  <p>Date : {item.schedule ? formatDateTime(item.schedule) : 'Date inconnue'}</p>
+                  <p>Localisation : {item.location}</p>
+                  <p>Quantité : {item.quantity}</p>
+                </div>
+                <div>
+                  <button
+                    className="btn btn-sm btn-primary me-2"
+                    onClick={() => handleUpdateCartItem(item.representationId, item.quantity + 1)}
+                  >
+                    +
+                  </button>
+                  <button
+                    className="btn btn-sm btn-secondary me-2"
+                    onClick={() => handleUpdateCartItem(item.representationId, item.quantity - 1)}
+                    disabled={item.quantity <= 1}
+                  >
+                    -
+                  </button>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleRemoveFromCart(item.representationId)}
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       )}
     </div>
   );

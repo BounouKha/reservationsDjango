@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404
-
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from catalogue.models.serializers import ShowSerializer
 from catalogue.models import Show
 
 def index(request):
@@ -25,4 +26,15 @@ def show(request, show_id):
         'title':title 
     })
 
+
+# Vue pour la liste des spectacles
+class ShowListAPIView(ListAPIView):
+    queryset = Show.objects.prefetch_related('showprice_set__price').all()  # Précharger les prix et leurs types
+    serializer_class = ShowSerializer
+
+# Vue pour les détails d'un spectacle
+class ShowDetailAPIView(RetrieveAPIView):
+    queryset = Show.objects.prefetch_related('showprice_set__price').all()  # Précharger les prix et leurs types
+    serializer_class = ShowSerializer
+    lookup_field = 'id'  # Utiliser l'ID pour récupérer un spectacle spécifique
     

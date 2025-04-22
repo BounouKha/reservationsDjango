@@ -11,7 +11,7 @@ from catalogue.models.feeds import BookableShowFeed
 from catalogue.views.user_meta_views import user_meta_list
 from catalogue.views.artist_views import artist_list
 from catalogue.views.representation_views import representation_list
-from api.catalogue.views.cart_api_views import CartView
+from catalogue.views.show_ import ShowListAPIView, ShowDetailAPIView
 
 
 app_name = 'catalogue'
@@ -42,7 +42,6 @@ urlpatterns = [
    
     path('rss/shows/', BookableShowFeed(), name='rss_shows'),
 
-
     path('api/artists/list', ArtistListCreateView.as_view(), name='artist-list'),
     path('api/artists/<int:pk>/', ArtistRetrieveUpdateDestroyView.as_view(), name='artist-detail'),
     path('api/user-meta/', user_meta_list, name='user_meta_list'),
@@ -53,6 +52,9 @@ urlpatterns = [
     path('api/cart/', get_cart, name='get-cart'),
     path('api/cart/update/', update_cart_item, name='update-cart-item'),
     path('api/cart/remove/', remove_cart_item, name='remove-cart-item'),
+     
+    path('api/shows/', ShowListAPIView.as_view(), name='show-list-api'),
+    path('api/shows/<int:id>/', ShowDetailAPIView.as_view(), name='show-detail-api'),
     
     
 ]
