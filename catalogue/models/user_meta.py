@@ -6,9 +6,11 @@ from django.db import models
 class UserMeta(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     langue = models.CharField(max_length=2)
+    active_token = models.CharField(max_length=255, blank=True, null=True)
+    is_logged_in = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.first_name + " " + self.user.last_name
+        return f"{self.user.username} - {'Connecté' if self.is_logged_in else 'Déconnecté'}"
 
     class Meta:
         db_table = "user_meta"

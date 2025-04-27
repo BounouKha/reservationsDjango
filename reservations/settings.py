@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'catalogue',
     'accounts',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 SITE_ID = 1
 MIDDLEWARE = [

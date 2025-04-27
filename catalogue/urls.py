@@ -2,6 +2,7 @@
 """
 from django.urls import path, include
 
+from accounts.views import UserMetaDetailView
 from catalogue.views.views_cart import add_to_cart, get_cart, remove_cart_item, update_cart_item
 from . import views
 from django.contrib import admin
@@ -55,7 +56,7 @@ urlpatterns = [
      
     path('api/shows/', ShowListAPIView.as_view(), name='show-list-api'),
     path('api/shows/<int:id>/', ShowDetailAPIView.as_view(), name='show-detail-api'),
-    
+    path('api/user-meta/<int:user_id>/', UserMetaDetailView.as_view(), name='user-meta-detail'),
     
 ]
 
