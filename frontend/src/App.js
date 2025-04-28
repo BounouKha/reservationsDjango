@@ -10,6 +10,7 @@ import Profile from './auth/Profile';
 import { isUserLoggedIn } from './auth/authService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import './App.css'; // Importer les styles personnalisés
 
 function App() {
     const [hasItemsInCart, setHasItemsInCart] = useState(false);
@@ -60,55 +61,49 @@ function App() {
 
     return (
         <Router>
-            <div className="bg-gray-100 min-h-screen">
-                <h1>Reservations</h1>
-                <nav className="p-4 bg-white shadow-md d-flex justify-content-between align-items-center">
-                    <ul className="flex space-x-4">
-                        <li>
-                            <Link to="/user-meta" className="text-blue-500 hover:underline">User Meta</Link>
-                        </li>
-                        <li>
-                            <Link to="/artists" className="text-blue-500 hover:underline">Nos artistes</Link>
-                        </li>
-                        <li>
-                            <Link to="/representations" className="text-blue-500 hover:underline">Nos spectacles</Link>
-                        </li>
-                    </ul>
-                    <div className="d-flex align-items-center">
-                        {user ? (
-                            <>
-                                <Link to="/profile" className="btn btn-outline-primary me-3">
-                                    <i className="bi bi-person-circle"></i> Profil
-                                </Link>
-                                <button
-                                    className="btn btn-danger text-white px-4 py-2 rounded shadow-sm"
-                                    style={{
-                                        backgroundColor: "#dc3545", // Rouge Bootstrap
-                                        border: "none",
-                                        fontWeight: "bold",
-                                        transition: "all 0.3s ease",
-                                    }}
-                                    onMouseOver={(e) => (e.target.style.backgroundColor = "#c82333")} // Couleur plus foncée au survol
-                                    onMouseOut={(e) => (e.target.style.backgroundColor = "#dc3545")} // Couleur normale après le survol
-                                    onClick={handleLogout}
-                                >
-                                    <i className="bi bi-box-arrow-right me-2"></i> Déconnexion
-                                </button>
-                            </>
-                        ) : (
-                            <Link to="/login" className="btn btn-outline-primary">Connexion</Link>
-                        )}
-                        <Link to={user ? "/cart" : "/login"} className="btn btn-outline-primary position-relative ms-3">
-                            <i className="bi bi-cart"></i>
-                            {hasItemsInCart && user && (
-                                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    <span className="visually-hidden">Articles dans le panier</span>
-                                </span>
+            <div className="app-container">
+                <header className="app-header">
+                    <h1 className="app-title">🎭 Réservations Spectacles</h1>
+                    <nav className="app-nav">
+                        <ul className="nav-links">
+                            <li>
+                                <Link to="/user-meta" className="nav-link">User Meta</Link>
+                            </li>
+                            <li>
+                                <Link to="/artists" className="nav-link">Nos Artistes</Link>
+                            </li>
+                            <li>
+                                <Link to="/representations" className="nav-link">Nos Spectacles</Link>
+                            </li>
+                        </ul>
+                        <div className="nav-actions">
+                            {user ? (
+                                <>
+                                    <Link to="/profile" className="btn btn-outline-dark me-3">
+                                        <i className="bi bi-person-circle"></i> Profil
+                                    </Link>
+                                    <button
+                                        className="btn btn-danger logout-btn"
+                                        onClick={handleLogout}
+                                    >
+                                        <i className="bi bi-box-arrow-right me-2"></i> Déconnexion
+                                    </button>
+                                </>
+                            ) : (
+                                <Link to="/login" className="btn btn-outline-dark">Connexion</Link>
                             )}
-                        </Link>
-                    </div>
-                </nav>
-                <div className="p-4">
+                            <Link to={user ? "/cart" : "/login"} className="btn btn-outline-dark position-relative ms-3">
+                                <i className="bi bi-cart"></i>
+                                {hasItemsInCart && user && (
+                                    <span className="cart-badge">
+                                        <span className="visually-hidden">Articles dans le panier</span>
+                                    </span>
+                                )}
+                            </Link>
+                        </div>
+                    </nav>
+                </header>
+                <main className="app-main">
                     <Routes>
                         <Route path="/user-meta" element={<UserMetaList />} />
                         <Route path="/artists" element={<ArtistList />} />
@@ -118,7 +113,10 @@ function App() {
                         <Route path="/login" element={user ? <Navigate to="/profile" /> : <Login onLoginSuccess={setUser} />} />
                         <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
                     </Routes>
-                </div>
+                </main>
+                <footer className="app-footer">
+                    <p>© 2025 Réservations Spectacles. Tous droits réservés.</p>
+                </footer>
             </div>
         </Router>
     );
