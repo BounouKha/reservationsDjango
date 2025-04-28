@@ -190,5 +190,3 @@ CORS_ALLOW_HEADERS = [
     'content-type', ]
 
 
-STRIPE_SECRET_KEY = "sk_test_MgvkTWK1jRG3olSRx9B7Mmxo"
-STRIPE_PUBLIC_KEY = "pk_test_HvEeju8Kg8pqDFSjQQyyxGDb"
