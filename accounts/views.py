@@ -314,3 +314,20 @@ class DeleteCartItemView(APIView):
             return Response(cart_data)
         except Exception as e:
             return Response({"error": str(e)}, status=400)
+
+
+class ClearCartView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        try:
+            cart = Cart.objects.filter(user=request.user).first()
+            if cart:
+                cart.items.all().delete()  # Supprimer tous les articles du panier
+                print(f"Panier vidé pour l'utilisateur {request.user.id}")
+                return JsonResponse({"message": "Panier vidé avec succès."}, status=200)
+            else:
+                return JsonResponse({"message": "Aucun panier trouvé."}, status=404)
+        except Exception as e:
+            print(f"Erreur lors de la suppression du panier : {str(e)}")
+            return JsonResponse({"error": "Erreur lors de la suppression du panier."}, status=500)

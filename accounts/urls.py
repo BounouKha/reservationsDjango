@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import DeleteCartItemView, LoginView, LogoutView, UpdateCartItemView, UserCartView, UserMetaDetailView, UserSignUpView, profile, UserUpdateView, delete
+from .views import ClearCartView, DeleteCartItemView, LoginView, LogoutView, UpdateCartItemView, UserCartView, UserMetaDetailView, UserSignUpView, profile, UserUpdateView, delete
 from .views import check_auth
 from accounts import views
 
@@ -19,4 +19,5 @@ urlpatterns = [
     path('api/user-cart/<int:user_id>/', UserCartView.as_view(), name='user-cart'),
     path('api/user-cart/update/', UpdateCartItemView.as_view(), name='update-cart-item'),  # Nouvelle route pour PATCH
     path('api/user-cart/delete/<int:user_id>/', DeleteCartItemView.as_view(), name='delete-cart-item'),  # Route pour DELETE
+    path('api/clear-cart/', ClearCartView.as_view(), name='clear-cart'),
 ]
