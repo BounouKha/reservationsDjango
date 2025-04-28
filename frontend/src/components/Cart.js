@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { formatDateTime, getCart } from '../services/cartService';
+import { formatDateTime } from '../services/cartService';
 
 const Cart = () => {
   const [cart, setCart] = useState({ items: [] });
@@ -9,24 +9,32 @@ const Cart = () => {
     const fetchCart = async () => {
       try {
         setLoading(true);
+        const token = localStorage.getItem('token');
+        const userId = JSON.parse(localStorage.getItem('user'))?.id;
 
-        // Utiliser la fonction getCart du cartService
-        const fetchedCart = await getCart();
-        console.log('Panier récupéré :', fetchedCart);
+        if (!token || !userId) {
+          console.error('Utilisateur non connecté.');
+          setCart({ items: [] });
+          return;
+        }
 
-        // S'assurer que chaque article a une clé `quantities` qui est un tableau
-        const sanitizedCart = {
-          ...fetchedCart,
-          items: fetchedCart.items.map((item) => ({
-            ...item,
-            quantities: Array.isArray(item.quantities) ? item.quantities : [],
-          })),
-        };
+        const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/${userId}/`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
 
-        setCart(sanitizedCart);
+        if (response.ok) {
+          const fetchedCart = await response.json();
+          setCart(fetchedCart);
+        } else {
+          console.error('Erreur lors de la récupération du panier.');
+          setCart({ items: [] });
+        }
       } catch (error) {
-        console.error('Erreur lors de la récupération du panier :', error);
-        setCart({ items: [] }); // En cas d'erreur, afficher un panier vide
+        console.error('Erreur réseau :', error);
+        setCart({ items: [] });
       } finally {
         setLoading(false);
       }
@@ -35,56 +43,49 @@ const Cart = () => {
     fetchCart();
   }, []);
 
-
-  const handleRemoveFromCart = (representationId) => {
+  const handleRemoveFromCart = async (representationId) => {
     try {
-      const updatedCart = {
-        ...cart,
-        items: cart.items.filter((item) => item.id !== representationId),
-      };
-  
-      // Mettre à jour le localStorage
-      localStorage.setItem('cart', JSON.stringify(updatedCart));
-  
-      // Mettre à jour l'état local
-      setCart(updatedCart);
-  
-      alert('Article supprimé du panier.');
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://127.0.0.1:8000/catalogue/api/cart/remove/`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Token ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ representationId }),
+      });
+
+      if (response.ok) {
+        const updatedCart = await response.json();
+        setCart(updatedCart);
+      } else {
+        console.error('Erreur lors de la suppression de l\'article.');
+      }
     } catch (error) {
-      console.error('Erreur lors de la suppression de l\'article du panier :', error);
+      console.error('Erreur réseau :', error);
     }
   };
 
-  const handleUpdateQuantity = (representationId, type, newCount) => {
+  const handleUpdateQuantity = async (representationId, type, newCount) => {
     try {
-      const localCart = { ...cart };
-      const itemIndex = localCart.items.findIndex((item) => item.id === representationId);
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://127.0.0.1:8000/catalogue/api/cart/update/`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Token ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ representationId, type, count: newCount }),
+      });
 
-      if (itemIndex !== -1) {
-        const quantities = localCart.items[itemIndex].quantities;
-        const quantityIndex = quantities.findIndex((q) => q.type === type);
-
-        if (quantityIndex !== -1) {
-          if (newCount > 0) {
-            // Mettre à jour la quantité
-            quantities[quantityIndex].count = newCount;
-          } else {
-            // Supprimer la catégorie si la quantité est 0
-            quantities.splice(quantityIndex, 1);
-          }
-        }
-
-        // Supprimer l'article si toutes les catégories sont vides
-        if (quantities.length === 0) {
-          localCart.items.splice(itemIndex, 1);
-        }
+      if (response.ok) {
+        const updatedCart = await response.json();
+        setCart(updatedCart);
+      } else {
+        console.error('Erreur lors de la mise à jour de la quantité.');
       }
-
-      // Sauvegarder dans le localStorage
-      localStorage.setItem('cart', JSON.stringify(localCart));
-      setCart(localCart); // Mettre à jour l'état local
     } catch (error) {
-      console.error('Erreur lors de la mise à jour de la quantité :', error);
+      console.error('Erreur réseau :', error);
     }
   };
 
@@ -99,48 +100,48 @@ const Cart = () => {
         <ul className="list-group">
           {cart.items.map((item) => (
             <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              <h5>{item.title}</h5>
-              <p>Date : {formatDateTime(item.schedule)}</p>
-              <p>Lieu : {item.location}</p>
-              <h6>Quantités :</h6>
-              <ul>
-                {Array.isArray(item.quantities) && item.quantities.map((quantity, index) => (
-                  <li key={index} className="d-flex justify-content-between align-items-center">
-                    <span>
-                      {quantity.type} : {quantity.count} x {quantity.price}€ ={' '}
-                      {(quantity.count * quantity.price).toFixed(2)}€
-                    </span>
-                    <div>
-                      <button
-                        className="btn btn-sm btn-primary me-2"
-                        onClick={() =>
-                          handleUpdateQuantity(item.id, quantity.type, quantity.count + 1)
-                        }
-                      >
-                        +
-                      </button>
-                      <button
-                        className="btn btn-sm btn-secondary me-2"
-                        onClick={() =>
-                          handleUpdateQuantity(item.id, quantity.type, quantity.count - 1)
-                        }
-                        disabled={quantity.count <= 1}
-                      >
-                        -
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <button
-              className="btn btn-sm btn-danger"
-              onClick={() => handleRemoveFromCart(item.id)}
-            >
-              Supprimer
-            </button>
-          </li>
+              <div>
+                <h5>{item.title}</h5>
+                <p>Date : {formatDateTime(item.schedule)}</p>
+                <p>Lieu : {item.location}</p>
+                <h6>Quantités :</h6>
+                <ul>
+                  {Array.isArray(item.quantities) && item.quantities.map((quantity, index) => (
+                    <li key={index} className="d-flex justify-content-between align-items-center">
+                      <span>
+                        {quantity.type} : {quantity.count} x {quantity.price}€ ={' '}
+                        {(quantity.count * quantity.price).toFixed(2)}€
+                      </span>
+                      <div>
+                        <button
+                          className="btn btn-sm btn-primary me-2"
+                          onClick={() =>
+                            handleUpdateQuantity(item.id, quantity.type, quantity.count + 1)
+                          }
+                        >
+                          +
+                        </button>
+                        <button
+                          className="btn btn-sm btn-secondary me-2"
+                          onClick={() =>
+                            handleUpdateQuantity(item.id, quantity.type, quantity.count - 1)
+                          }
+                          disabled={quantity.count <= 1}
+                        >
+                          -
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                className="btn btn-sm btn-danger"
+                onClick={() => handleRemoveFromCart(item.id)}
+              >
+                Supprimer
+              </button>
+            </li>
           ))}
         </ul>
       )}

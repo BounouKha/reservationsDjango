@@ -31,7 +31,8 @@ const Profile = () => {
           setUser(data.user); // Mettre à jour les informations utilisateur
         } else {
           console.error('Erreur lors de la récupération des données utilisateur.');
-          navigate('/login'); // Rediriger si la réponse n'est pas autorisée
+          navigate('/login');
+          return // Rediriger si la réponse n'est pas autorisée
         }
       } catch (err) {
         console.error('Erreur réseau :', err);

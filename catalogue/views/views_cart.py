@@ -12,43 +12,40 @@ from django.contrib.sessions.models import Session
 
 @csrf_exempt
 def add_to_cart(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            representation_id = data.get('representation_id')
-            quantity = data.get('quantity', 1)
+    if request.method != 'POST':
+        return JsonResponse({"error": "Invalid request method"}, status=405)
+    try:
+        data = json.loads(request.body)
+        repr_id       = data['representation_id']
+        price_id      = data['price_id']        # nouveau champ
+        qty           = int(data.get('quantity', 1))
 
-            if request.user.is_authenticated:
-                # Utilisateur connecté : Ajouter au panier lié à l'utilisateur
-                cart, created = Cart.objects.get_or_create(user=request.user)
-                cart_item, created = CartItem.objects.get_or_create(
-                    cart=cart,
-                    representation_id=representation_id,
-                    defaults={'quantity': quantity}
-                )
-                if not created:
-                    cart_item.quantity += quantity
-                    cart_item.save()
+        if request.user.is_authenticated:
+            cart, _ = Cart.objects.get_or_create(user=request.user)
+            item, created = CartItem.objects.get_or_create(
+                cart=cart,
+                representation_id=repr_id,
+                price_id=price_id,
+                defaults={'quantity': qty}
+            )
+            if not created:
+                item.quantity += qty
+                item.save()
+            return JsonResponse({"message": "Ajouté au panier"}, status=200)
+        else:
+            # Même logique dans les cookies ou session, en gérant price_id idem
+            session_cart = request.session.get('cart', {})
+            key = f"{repr_id}:{price_id}"
+            session_cart[key] = session_cart.get(key, 0) + qty
+            request.session['cart'] = session_cart
+            return JsonResponse({"message": "Ajouté au panier (session)"}, status=200)
 
-                return JsonResponse({"message": "Representation added to cart successfully!"})
-            else:
-                # Utilisateur non connecté : Stocker dans les cookies
-                cart_cookie = request.COOKIES.get('cart', '{}')
-                cart_data = json.loads(cart_cookie)
-
-                if str(representation_id) in cart_data:
-                    cart_data[str(representation_id)] += quantity
-                else:
-                    cart_data[str(representation_id)] = quantity
-
-                response = JsonResponse({"message": "Representation added to cart in cookies!"})
-                response.set_cookie('cart', json.dumps(cart_data), max_age=7*24*60*60)  # Expire dans 7 jours
-                return response
-
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=400)
-    return JsonResponse({"error": "Invalid request method"}, status=405)
-
+    except KeyError:
+        return JsonResponse({"error": "Champs manquants"}, status=400)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=400)
+    
+    
 def get_cart(request):
     print(f"Utilisateur authentifié : {request.user.is_authenticated}")
     if request.user.is_authenticated:

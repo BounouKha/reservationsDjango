@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import LoginView, LogoutView, UserMetaDetailView, UserSignUpView, profile, UserUpdateView, delete
+from .views import LoginView, LogoutView, UserCartView, UserMetaDetailView, UserSignUpView, profile, UserUpdateView, delete
 from .views import check_auth
+from accounts import views
 
 app_name = 'accounts'
 
@@ -13,5 +14,8 @@ urlpatterns = [
     path('api/auth/check/', check_auth, name='check_auth'),
     path('api/login/', LoginView.as_view(), name='login'),
     path('api/logout/', LogoutView.as_view(), name='logout'),
+    
     path('api/user-meta/<int:user_id>/', UserMetaDetailView.as_view(), name='user-meta-detail'),
+    path('api/user-cart/<int:user_id>/', UserCartView.as_view(), name='user-cart'),
+    
 ]

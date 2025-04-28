@@ -15,6 +15,7 @@ from catalogue.views.representation_views import representation_list
 from catalogue.views.show_ import ShowListAPIView, ShowDetailAPIView
 
 
+
 app_name = 'catalogue'
 
 urlpatterns = [
@@ -57,6 +58,7 @@ urlpatterns = [
     path('api/shows/', ShowListAPIView.as_view(), name='show-list-api'),
     path('api/shows/<int:id>/', ShowDetailAPIView.as_view(), name='show-detail-api'),
     path('api/user-meta/<int:user_id>/', UserMetaDetailView.as_view(), name='user-meta-detail'),
+    
     
 ]
 

@@ -1,4 +1,3 @@
-import { isUserLoggedIn } from '../auth/authService'; // Importer la fonction pour vérifier si l'utilisateur est connecté
 
 
 
@@ -13,91 +12,69 @@ export const formatDateTime = (isoString) => {
   return `${formattedDate} à ${formattedTime}`;
 };
 
-export const getCart = async () => {
+export const getCart = async (userId) => {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    throw new Error('Utilisateur non connecté.');
+  }
+
   try {
-    const loggedIn = await isUserLoggedIn(); // Vérifier si l'utilisateur est connecté
+    const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/${userId}/`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
 
-    if (loggedIn) {
-      // Si l'utilisateur est connecté, récupérer le panier depuis le serveur
-      const response = await fetch(`${BASE_URL}/cart/`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch cart');
-      }
-
-      const serverCart = await response.json();
-      console.log('Panier récupéré depuis le serveur :', serverCart);
-
-      return { id: serverCart.id, items: serverCart.items };
-    } else {
-      // Si l'utilisateur n'est pas connecté, utiliser uniquement le panier local
-      console.log('Utilisateur non connecté, récupération du panier local.');
-      const cart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
-      return cart;
+    if (!response.ok) {
+      throw new Error('Échec de la récupération du panier');
     }
-  } catch (error) {
-    console.warn('Erreur lors de la récupération du panier :', error);
-    const cart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
+
+    const cart = await response.json();
+    console.log('Panier récupéré :', cart);
     return cart;
+  } catch (error) {
+    console.error('Erreur lors de la récupération du panier :', error);
+    throw error;
   }
 };
 
 // Fonction pour ajouter une représentation au panier
-export const addToCart = async (representationId, representationDetails) => {
-  const loggedIn = await isUserLoggedIn();
+export const addToCart = async (userId, representationId, quantities) => {
+  const token = localStorage.getItem('token');
 
-  if (loggedIn) {
-    try {
-      const response = await fetch(`${BASE_URL}/cart/add/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ representation_id: representationId, quantity: 1 }),
-        credentials: 'include',
-      });
+  if (!token) {
+    throw new Error('Utilisateur non connecté.');
+  }
 
-      if (!response.ok) {
-        throw new Error('Failed to add to cart');
-      }
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/${userId}/`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Token ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: representationId,
+        quantities: quantities, // Assurez-vous que ce champ est un tableau valide
+      }),
+    });
 
-      const data = await response.json();
-      console.log('Article ajouté au panier côté serveur :', data);
-      return data;
-    } catch (error) {
-      console.error('Erreur lors de l\'ajout au panier côté serveur :', error);
-      throw error;
-    }
-  } else {
-    const cart = JSON.parse(localStorage.getItem('cart')) || { items: [] };
-
-    console.log('Ajout au panier local :', { representationId, representationDetails });
-
-    // Vérifier si l'article existe déjà
-    const existingItemIndex = cart.items.findIndex((item) => item.representationId === representationId);
-    if (existingItemIndex !== -1) {
-      cart.items[existingItemIndex].quantity += 1;
-    } else {
-      cart.items.push({
-        representationId, // Inclure l'ID de la représentation
-        quantity: 1,
-        ...representationDetails, // Inclure les détails de la représentation
-      });
+    if (!response.ok) {
+      throw new Error('Échec de l\'ajout au panier');
     }
 
-    localStorage.setItem('cart', JSON.stringify(cart));
-    console.log('Article ajouté au panier local :', cart);
-    return { message: 'Article ajouté au panier local.' };
+    const data = await response.json();
+    console.log('Article ajouté au panier :', data);
+    return data;
+  } catch (error) {
+    console.error('Erreur lors de l\'ajout au panier :', error);
+    throw error;
   }
 };
 
-// supprimer le panier local
+
 export const clearCart = async () => {
   const response = await fetch(BASE_URL, {
     method: "DELETE",
@@ -131,79 +108,63 @@ export const syncLocalCartWithServer = async () => {
 };
 
 
-export const updateCartItem = async (representationId, quantity) => {
-  const loggedIn = await isUserLoggedIn(); // Vérifier si l'utilisateur est connecté
+export const updateCartItem = async (userId, cartItemId, quantity) => {
+  const token = localStorage.getItem('token');
 
-  if (loggedIn) {
-    // Si l'utilisateur est connecté, synchroniser avec le serveur
-    try {
-      const response = await fetch(`${BASE_URL}/cart/update/`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ representation_id: representationId, quantity }),
-        credentials: 'include', // Inclut les cookies pour l'authentification
-      });
+  if (!token) {
+    throw new Error('Utilisateur non connecté.');
+  }
 
-      if (!response.ok) {
-        throw new Error('Failed to update cart item on server');
-      }
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/${userId}/`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify({ cart_item_id: cartItemId, quantity }),
+    });
 
-      const data = await response.json();
-      console.log('Article mis à jour dans le panier côté serveur :', data);
-      return data;
-    } catch (error) {
-      console.error('Erreur lors de la mise à jour du panier côté serveur :', error);
-      throw error;
+    if (!response.ok) {
+      throw new Error('Échec de la mise à jour de l\'article');
     }
-  } else {
-    // Si l'utilisateur n'est pas connecté, mettre à jour le panier local
-    const cart = JSON.parse(localStorage.getItem('cart')) || {};
-    console.log(JSON.parse(localStorage.getItem('cart')));
-    if (quantity > 0) {
-      cart[representationId] = quantity; // Mettre à jour la quantité
-    } else {
-      delete cart[representationId]; // Supprimer l'article si la quantité est 0
-    }
-    localStorage.setItem('cart', JSON.stringify(cart));
-    console.log('Article mis à jour dans le panier local :', cart);
-    return { message: 'Article mis à jour dans le panier local.' };
+
+    const data = await response.json();
+    console.log('Article mis à jour :', data);
+    return data;
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour de l\'article :', error);
+    throw error;
   }
 };
 
-export const removeFromCart = async (representationId) => {
-  const loggedIn = await isUserLoggedIn(); // Vérifier si l'utilisateur est connecté
 
-  if (loggedIn) {
-    // Si l'utilisateur est connecté, synchroniser avec le serveur
-    try {
-      const response = await fetch(`${BASE_URL}/cart/remove/`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ representation_id: representationId }),
-        credentials: 'include',
-      });
+export const removeFromCart = async (userId, cartItemId) => {
+  const token = localStorage.getItem('token');
 
-      if (!response.ok) {
-        throw new Error('Failed to remove item from cart on server');
-      }
+  if (!token) {
+    throw new Error('Utilisateur non connecté.');
+  }
 
-      const data = await response.json();
-      console.log('Article supprimé du panier côté serveur :', data);
-      return data;
-    } catch (error) {
-      console.error('Erreur lors de la suppression du panier côté serveur :', error);
-      throw error;
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/${userId}/`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify({ cart_item_id: cartItemId }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Échec de la suppression de l\'article');
     }
-  } else {
-    // Si l'utilisateur n'est pas connecté, supprimer du panier local
-    const cart = JSON.parse(localStorage.getItem('cart')) || {};
-    delete cart[representationId];
-    localStorage.setItem('cart', JSON.stringify(cart));
-    console.log('Article supprimé du panier local :', cart);
-    return { message: 'Article supprimé du panier local.' };
+
+    const data = await response.json();
+    console.log('Article supprimé :', data);
+    return data;
+  } catch (error) {
+    console.error('Erreur lors de la suppression de l\'article :', error);
+    throw error;
   }
 };
