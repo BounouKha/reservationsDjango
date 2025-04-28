@@ -188,9 +188,8 @@ class UserCartView(APIView):
             print(f"Données reçues : {data}")
 
             # Extraire les informations nécessaires
-            representation_data = data.get('id', {})
-            representation_id = representation_data.get('id')  # ID de la représentation
-            quantities = representation_data.get('quantities', [])  # Liste des quantités par type
+            representation_id = data.get('id')  # ID de la représentation
+            quantities = data.get('quantities', [])  # Liste des quantités par type
 
             if not representation_id or not quantities:
                 return Response({"error": "Données invalides. 'id' et 'quantities' sont requis."}, status=400)
@@ -225,7 +224,6 @@ class UserCartView(APIView):
         except Exception as e:
             print(f"Erreur : {e}")
             return Response({"error": str(e)}, status=400)
-        
 
 class UpdateCartItemView(APIView):
     authentication_classes = [TokenAuthentication]

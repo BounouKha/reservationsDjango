@@ -41,27 +41,30 @@ export const getCart = async (userId) => {
 };
 
 // Fonction pour ajouter une représentation au panier
-export const addToCart = async (userId, representationId, quantities) => {
+export const addToCart = async (representationId, quantities) => {
   const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user'));
 
-  if (!token) {
+  if (!token || !user) {
     throw new Error('Utilisateur non connecté.');
   }
 
   try {
-    const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/${userId}/`, {
+    const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/${user.id}/`, {
       method: 'POST',
       headers: {
         Authorization: `Token ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: representationId,
-        quantities: quantities, // Assurez-vous que ce champ est un tableau valide
+        id: representationId, // ID de la représentation
+        quantities: quantities, // Liste des quantités
       }),
     });
 
     if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Erreur du backend :', errorData);
       throw new Error('Échec de l\'ajout au panier');
     }
 
@@ -73,7 +76,6 @@ export const addToCart = async (userId, representationId, quantities) => {
     throw error;
   }
 };
-
 
 export const clearCart = async () => {
   const response = await fetch(BASE_URL, {

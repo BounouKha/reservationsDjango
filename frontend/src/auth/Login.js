@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { addToCart } from '../services/cartService'; // Service pour ajouter au panier
 
 const Login = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
@@ -22,19 +23,28 @@ const Login = ({ onLoginSuccess }) => {
       if (response.ok) {
         const data = await response.json();
 
-        // Stocker le token dans le localStorage
+        // Stocker le token et les informations utilisateur
         localStorage.setItem('token', data.token);
-
-        // Stocker les informations utilisateur dans le localStorage
         localStorage.setItem('user', JSON.stringify(data.user));
 
-        // Appeler la fonction onLoginSuccess si elle est définie
         if (onLoginSuccess) {
           onLoginSuccess(data.user);
         }
 
-        // Rediriger vers la page de profil
-        navigate('/profile');
+        // Vérifier si un article est en attente dans le localStorage
+        const pendingCartItem = localStorage.getItem('pendingCartItem');
+        if (pendingCartItem) {
+          const cartItem = JSON.parse(pendingCartItem);
+
+          // Ajouter l'article au panier
+          await addToCart(cartItem.id, cartItem.quantities);
+
+          // Supprimer l'article en attente du localStorage
+          localStorage.removeItem('pendingCartItem');
+        }
+
+        // Rediriger vers le panier
+        navigate('/cart');
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Erreur lors de la connexion.');

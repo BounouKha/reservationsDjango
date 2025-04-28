@@ -48,36 +48,48 @@ const RepresentationsList = () => {
 
 
 
-  const handleAddToCart = async (representationId) => {
-    try {
-      console.log('Représentation ID :', representationId);
-      console.log('Quantités sélectionnées :', quantities);
+const handleAddToCart = async (representationId) => {
+  const token = localStorage.getItem('token');
 
-      const representationDetails = {
-        id: representationId,
-        title: selectedRepresentation.show?.title || 'Titre indisponible',
-        schedule: selectedRepresentation.schedule || 'Date inconnue',
-        location: selectedRepresentation.location || 'Lieu inconnu',
-        locality: selectedRepresentation.locality || 'Localité inconnue',
-        quantities: Object.entries(quantities).map(([type, count]) => ({
-          type,
-          count,
-          price: selectedRepresentation.show.prices.find((price) => price.type === type)?.price || 0,
-        })),
-      };
-
-      // Vérifier que quantities est bien un tableau
-      if (!Array.isArray(representationDetails.quantities)) {
-        representationDetails.quantities = [];
-      }
-
-      const response = await addToCart(representationId, representationDetails);
-      alert(response.message);
-    } catch (error) {
-      console.error('Erreur lors de l\'ajout au panier :', error);
-      alert('Impossible d\'ajouter au panier.');
-    }
+  // Préparer les données de la représentation
+  const representationDetails = {
+    id: representationId,
+    title: selectedRepresentation.show?.title || 'Titre indisponible',
+    schedule: selectedRepresentation.schedule || 'Date inconnue',
+    location: selectedRepresentation.location || 'Lieu inconnu',
+    locality: selectedRepresentation.locality || 'Localité inconnue',
+    quantities: Object.entries(quantities).map(([type, count]) => ({
+      type,
+      count,
+      price: selectedRepresentation.show.prices.find((price) => price.type === type)?.price || 0,
+    })),
   };
+
+  // Vérifier que `quantities` contient au moins un élément
+  if (representationDetails.quantities.length === 0) {
+    alert('Veuillez sélectionner au moins une quantité.');
+    return;
+  }
+
+  // Si l'utilisateur n'est pas connecté
+  if (!token) {
+    // Stocker les informations dans le localStorage
+    localStorage.setItem('pendingCartItem', JSON.stringify(representationDetails));
+
+    // Rediriger vers la page de connexion
+    window.location.href = '/login';
+    return;
+  }
+
+  // Si l'utilisateur est connecté, envoyer la requête pour ajouter au panier
+  try {
+    const response = await addToCart(representationId, representationDetails.quantities);
+    alert(response.message);
+  } catch (error) {
+    console.error('Erreur lors de l\'ajout au panier :', error);
+    alert('Impossible d\'ajouter au panier.');
+  }
+};
 
   if (loading) {
     return (
