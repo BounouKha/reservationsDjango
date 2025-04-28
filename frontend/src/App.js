@@ -11,6 +11,8 @@ import { isUserLoggedIn } from './auth/authService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css'; // Importer les styles personnalisés
+import Success from './pages/Success';
+import Cancel from './pages/Cancel';
 
 function App() {
     const [hasItemsInCart, setHasItemsInCart] = useState(false);
@@ -112,6 +114,10 @@ function App() {
                         <Route path="/cart" element={user ? <Cart /> : <Navigate to="/login" />} />
                         <Route path="/login" element={user ? <Navigate to="/profile" /> : <Login onLoginSuccess={setUser} />} />
                         <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
+                         
+                         {/* Autres routes */}
+                        <Route path="/success" element={<Success />} />
+                        <Route path="/cancel" element={<Cancel />} />
                     </Routes>
                 </main>
                 <footer className="app-footer">

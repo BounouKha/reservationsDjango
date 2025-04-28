@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { formatDateTime } from '../services/cartService';
+import { loadStripe } from '@stripe/stripe-js';
+
+
+const stripePromise = loadStripe('pk_test_HvEeju8Kg8pqDFSjQQyyxGDb'); //clé pblique de test Stripe
 
 const Cart = () => {
   const [cart, setCart] = useState({ items: [] });
@@ -49,7 +53,7 @@ const Cart = () => {
     try {
       const token = localStorage.getItem('token');
       const userId = JSON.parse(localStorage.getItem('user'))?.id;
-  
+
       const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/delete/${userId}/`, {
         method: 'DELETE',
         headers: {
@@ -58,7 +62,7 @@ const Cart = () => {
         },
         body: JSON.stringify({ cart_item_id: cartItemId }),
       });
-  
+
       if (response.ok) {
         const updatedCart = await response.json();
         setCart(updatedCart);
@@ -74,7 +78,7 @@ const Cart = () => {
   const handleUpdateQuantity = async (cartItemId, newQuantity) => {
     try {
       const token = localStorage.getItem('token');
-  
+
       const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/update/`, {
         method: 'PATCH',
         headers: {
@@ -83,7 +87,7 @@ const Cart = () => {
         },
         body: JSON.stringify({ cart_item_id: cartItemId, quantity: newQuantity }),
       });
-  
+
       if (response.ok) {
         const updatedCart = await response.json();
         setCart(updatedCart);
@@ -92,6 +96,30 @@ const Cart = () => {
       }
     } catch (error) {
       console.error('Erreur réseau :', error);
+    }
+  };
+
+  // Fonction pour gérer le paiement avec Stripe
+  const handleCheckout = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://127.0.0.1:8000/catalogue/api/create-stripe-session/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      if (data.id) {
+        const stripe = await stripePromise;
+        stripe.redirectToCheckout({ sessionId: data.id });
+      } else {
+        console.error('Erreur lors de la création de la session de paiement.');
+      }
+    } catch (error) {
+      console.error('Erreur lors du paiement :', error);
     }
   };
 
@@ -153,6 +181,9 @@ const Cart = () => {
             .toFixed(2)}
           €
         </h4>
+        <button className="btn btn-success mt-3" onClick={handleCheckout}>
+          Payer avec Stripe
+        </button>
       </div>
     </div>
   );
