@@ -5,6 +5,7 @@ const Cart = () => {
   const [cart, setCart] = useState({ items: [] });
   const [loading, setLoading] = useState(true);
 
+  // Fonction pour récupérer le panier
   useEffect(() => {
     const fetchCart = async () => {
       try {
@@ -43,18 +44,21 @@ const Cart = () => {
     fetchCart();
   }, []);
 
-  const handleRemoveFromCart = async (representationId) => {
+  // Fonction pour supprimer un article du panier
+  const handleRemoveFromCart = async (cartItemId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://127.0.0.1:8000/catalogue/api/cart/remove/`, {
-        method: 'POST',
+      const userId = JSON.parse(localStorage.getItem('user'))?.id;
+  
+      const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/delete/${userId}/`, {
+        method: 'DELETE',
         headers: {
           Authorization: `Token ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ representationId }),
+        body: JSON.stringify({ cart_item_id: cartItemId }),
       });
-
+  
       if (response.ok) {
         const updatedCart = await response.json();
         setCart(updatedCart);
@@ -66,18 +70,20 @@ const Cart = () => {
     }
   };
 
-  const handleUpdateQuantity = async (representationId, type, newCount) => {
+  // Fonction pour mettre à jour la quantité d'un article
+  const handleUpdateQuantity = async (cartItemId, newQuantity) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://127.0.0.1:8000/catalogue/api/cart/update/`, {
-        method: 'POST',
+  
+      const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/update/`, {
+        method: 'PATCH',
         headers: {
           Authorization: `Token ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ representationId, type, count: newCount }),
+        body: JSON.stringify({ cart_item_id: cartItemId, quantity: newQuantity }),
       });
-
+  
       if (response.ok) {
         const updatedCart = await response.json();
         setCart(updatedCart);
@@ -104,36 +110,27 @@ const Cart = () => {
                 <h5>{item.title}</h5>
                 <p>Date : {formatDateTime(item.schedule)}</p>
                 <p>Lieu : {item.location}</p>
-                <h6>Quantités :</h6>
-                <ul>
-                  {Array.isArray(item.quantities) && item.quantities.map((quantity, index) => (
-                    <li key={index} className="d-flex justify-content-between align-items-center">
-                      <span>
-                        {quantity.type} : {quantity.count} x {quantity.price}€ ={' '}
-                        {(quantity.count * quantity.price).toFixed(2)}€
-                      </span>
-                      <div>
-                        <button
-                          className="btn btn-sm btn-primary me-2"
-                          onClick={() =>
-                            handleUpdateQuantity(item.id, quantity.type, quantity.count + 1)
-                          }
-                        >
-                          +
-                        </button>
-                        <button
-                          className="btn btn-sm btn-secondary me-2"
-                          onClick={() =>
-                            handleUpdateQuantity(item.id, quantity.type, quantity.count - 1)
-                          }
-                          disabled={quantity.count <= 1}
-                        >
-                          -
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                <h6>Prix :</h6>
+                <p>
+                  {item.price.type} : {parseFloat(item.price.amount).toFixed(2)}€
+                </p>
+                <h6>Quantité :</h6>
+                <div className="d-flex align-items-center">
+                  <button
+                    className="btn btn-sm btn-secondary me-2"
+                    onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                    disabled={item.quantity <= 1}
+                  >
+                    -
+                  </button>
+                  <span>{item.quantity}</span>
+                  <button
+                    className="btn btn-sm btn-primary ms-2"
+                    onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
               <button
                 className="btn btn-sm btn-danger"
@@ -150,14 +147,7 @@ const Cart = () => {
           Total :{' '}
           {cart.items
             .reduce(
-              (total, item) =>
-                total +
-                (Array.isArray(item.quantities)
-                  ? item.quantities.reduce(
-                      (sum, quantity) => sum + quantity.count * quantity.price,
-                      0
-                    )
-                  : 0),
+              (total, item) => total + item.quantity * parseFloat(item.price.amount),
               0
             )
             .toFixed(2)}

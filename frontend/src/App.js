@@ -81,26 +81,26 @@ function App() {
                                     <i className="bi bi-person-circle"></i> Profil
                                 </Link>
                                 <button
-                                className="btn btn-danger text-white px-4 py-2 rounded shadow-sm"
-                                style={{
-                                    backgroundColor: "#dc3545", // Rouge Bootstrap
-                                    border: "none",
-                                    fontWeight: "bold",
-                                    transition: "all 0.3s ease",
-                                }}
-                                onMouseOver={(e) => (e.target.style.backgroundColor = "#c82333")} // Couleur plus foncée au survol
-                                onMouseOut={(e) => (e.target.style.backgroundColor = "#dc3545")} // Couleur normale après le survol
-                                onClick={handleLogout}
+                                    className="btn btn-danger text-white px-4 py-2 rounded shadow-sm"
+                                    style={{
+                                        backgroundColor: "#dc3545", // Rouge Bootstrap
+                                        border: "none",
+                                        fontWeight: "bold",
+                                        transition: "all 0.3s ease",
+                                    }}
+                                    onMouseOver={(e) => (e.target.style.backgroundColor = "#c82333")} // Couleur plus foncée au survol
+                                    onMouseOut={(e) => (e.target.style.backgroundColor = "#dc3545")} // Couleur normale après le survol
+                                    onClick={handleLogout}
                                 >
-                                <i className="bi bi-box-arrow-right me-2"></i> Déconnexion
+                                    <i className="bi bi-box-arrow-right me-2"></i> Déconnexion
                                 </button>
                             </>
                         ) : (
                             <Link to="/login" className="btn btn-outline-primary">Connexion</Link>
                         )}
-                        <Link to="/cart" className="btn btn-outline-primary position-relative ms-3">
+                        <Link to={user ? "/cart" : "/login"} className="btn btn-outline-primary position-relative ms-3">
                             <i className="bi bi-cart"></i>
-                            {hasItemsInCart && (
+                            {hasItemsInCart && user && (
                                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     <span className="visually-hidden">Articles dans le panier</span>
                                 </span>
@@ -114,7 +114,7 @@ function App() {
                         <Route path="/artists" element={<ArtistList />} />
                         <Route path="/representations" element={<RepresentationsList />} />
                         <Route path="/show/:id" element={<ShowDetail />} />
-                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/cart" element={user ? <Cart /> : <Navigate to="/login" />} />
                         <Route path="/login" element={user ? <Navigate to="/profile" /> : <Login onLoginSuccess={setUser} />} />
                         <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
                     </Routes>

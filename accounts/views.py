@@ -225,3 +225,94 @@ class UserCartView(APIView):
         except Exception as e:
             print(f"Erreur : {e}")
             return Response({"error": str(e)}, status=400)
+        
+
+class UpdateCartItemView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def patch(self, request):
+        try:
+            cart_item_id = request.data.get('cart_item_id')
+            quantity = request.data.get('quantity')
+
+            if not cart_item_id or quantity is None:
+                return Response({"error": "Données invalides."}, status=400)
+
+            # Vérifier que l'article appartient au panier de l'utilisateur
+            cart_item = CartItem.objects.filter(id=cart_item_id, cart__user=request.user).first()
+            if not cart_item:
+                return Response({"error": "Article introuvable ou non autorisé."}, status=404)
+
+            # Mettre à jour la quantité
+            if quantity > 0:
+                cart_item.quantity = quantity
+                cart_item.save()
+            else:
+                # Supprimer l'article si la quantité est 0
+                cart_item.delete()
+
+            # Retourner le panier mis à jour
+            cart = cart_item.cart
+            items = cart.items.select_related('representation__show', 'price').all()
+            cart_data = {
+                "id": cart.id,
+                "items": [
+                    {
+                        "id": item.id,
+                        "title": item.representation.show.title,
+                        "schedule": item.representation.schedule,
+                        "location": item.representation.location.designation,
+                        "price": {
+                            "type": item.price.type,
+                            "amount": str(item.price.price),
+                        },
+                        "quantity": item.quantity,
+                    }
+                    for item in items
+                ],
+            }
+            return Response(cart_data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)
+        
+class DeleteCartItemView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def delete(self, request, user_id):
+        try:
+            cart_item_id = request.data.get('cart_item_id')
+
+            if not cart_item_id:
+                return Response({"error": "ID de l'article manquant."}, status=400)
+
+            # Vérifier que l'article appartient au panier de l'utilisateur
+            cart_item = CartItem.objects.filter(id=cart_item_id, cart__user=request.user).first()
+            if not cart_item:
+                return Response({"error": "Article introuvable ou non autorisé."}, status=404)
+
+            # Supprimer l'article
+            cart_item.delete()
+
+            # Retourner le panier mis à jour
+            cart = cart_item.cart
+            items = cart.items.select_related('representation__show', 'price').all()
+            cart_data = {
+                "id": cart.id,
+                "items": [
+                    {
+                        "id": item.id,
+                        "title": item.representation.show.title,
+                        "schedule": item.representation.schedule,
+                        "location": item.representation.location.designation,
+                        "price": {
+                            "type": item.price.type,
+                            "amount": str(item.price.price),
+                        },
+                        "quantity": item.quantity,
+                    }
+                    for item in items
+                ],
+            }
+            return Response(cart_data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)
