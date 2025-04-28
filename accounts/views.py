@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 from catalogue.models.cart import Cart, CartItem
 from catalogue.models.price import Price
 from catalogue.models.representation import Representation
+from catalogue.models.reservation import Reservation
+from catalogue.models.serializers import ReservationSerializer
 from .forms import UserUpdateForm
 from django.contrib.auth import logout
 from accounts.forms.UserUpdateForm import UserUpdateForm
@@ -331,3 +333,20 @@ class ClearCartView(APIView):
         except Exception as e:
             print(f"Erreur lors de la suppression du panier : {str(e)}")
             return JsonResponse({"error": "Erreur lors de la suppression du panier."}, status=500)
+        
+
+class UserReservationsView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request, user_id):
+        if request.user.id != user_id:
+            return Response({"error": "Non autorisé."}, status=403)
+
+        # Charger les relations nécessaires
+        reservations = Reservation.objects.filter(user_id=user_id).prefetch_related(
+            'representationreservation_set__price',
+            'representationreservation_set__representation__show'
+        ).order_by('-booking_date')
+
+        serializer = ReservationSerializer(reservations, many=True)
+        return Response(serializer.data)

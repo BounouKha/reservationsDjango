@@ -2,6 +2,7 @@ from rest_framework import serializers
 from catalogue.models import Artist
 from rest_framework.reverse import reverse
 from catalogue.models import Show, ShowPrice, Price
+from catalogue.models.reservation import Reservation
 
 class ArtistSerializer(serializers.HyperlinkedModelSerializer):
     links = serializers.SerializerMethodField()
@@ -36,3 +37,27 @@ class ShowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Show
         fields = ['id', 'title', 'description', 'duration', 'bookable', 'prices']
+        
+
+class ReservationSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+    quantity = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Reservation
+        fields = ['id', 'booking_date', 'status', 'title', 'quantity']
+
+    def get_title(self, obj):
+        # Récupérer le titre du spectacle via RepresentationReservation
+        representation_reservation = obj.representationreservation_set.first()
+        if representation_reservation:
+            return representation_reservation.representation.show.title
+        return None
+
+    def get_quantity(self, obj):
+        # Récupérer la quantité via RepresentationReservation
+        representation_reservation = obj.representationreservation_set.first()
+        if representation_reservation:
+            return representation_reservation.quantity
+        return 0
+
