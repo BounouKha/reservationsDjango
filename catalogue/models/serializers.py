@@ -61,3 +61,9 @@ class ReservationSerializer(serializers.ModelSerializer):
             return representation_reservation.quantity
         return 0
 
+
+
+class PriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Price
+        fields = ['id', 'type', 'price']  # Ajoutez les champs nécessaires

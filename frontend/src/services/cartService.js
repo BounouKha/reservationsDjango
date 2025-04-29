@@ -50,6 +50,9 @@ export const addToCart = async (representationId, quantities) => {
   }
 
   try {
+    console.log('Tentative d\'ajout au panier :');
+    console.log('ID de la représentation :', representationId);
+    console.log('Quantités :', quantities);
     const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/${user.id}/`, {
       method: 'POST',
       headers: {

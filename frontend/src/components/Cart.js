@@ -78,6 +78,8 @@ const Cart = () => {
   const handleUpdateQuantity = async (cartItemId, newQuantity) => {
     try {
       const token = localStorage.getItem('token');
+      console.log('Mise à jour de la quantité pour cart_item_id :', cartItemId, 'Nouvelle quantité :', newQuantity); // Ajout du console.log
+
 
       const response = await fetch(`http://127.0.0.1:8000/accounts/api/user-cart/update/`, {
         method: 'PATCH',
@@ -87,6 +89,7 @@ const Cart = () => {
         },
         body: JSON.stringify({ cart_item_id: cartItemId, quantity: newQuantity }),
       });
+
 
       if (response.ok) {
         const updatedCart = await response.json();
@@ -188,5 +191,6 @@ const Cart = () => {
     </div>
   );
 };
+
 
 export default Cart;
