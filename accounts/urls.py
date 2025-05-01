@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ClearCartView, DeleteCartItemView, LoginView, LogoutView, PaymentSuccessView, PriceListAPIView, UpdateCartItemView, UserCartView, UserMetaDetailView, UserReservationsView, UserSignUpView, profile, UserUpdateView, delete
+from .views import ClearCartView, DeleteCartItemView, LoginView, LogoutView, PaymentSuccessView, PriceListAPIView, RepresentationListAPIView, UpdateCartItemView, UserCartView, UserMetaDetailView, UserReservationsView, UserSignUpView, profile, UserUpdateView, delete
 from .views import check_auth
 from accounts import views
 
@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/user-reservations/<int:user_id>/', UserReservationsView.as_view(), name='user-reservations'),
     path('api/payment-success/', PaymentSuccessView.as_view(), name='payment-success'),
     path('api/prices/', PriceListAPIView.as_view(), name='price-list'),
+    path('api/representations/', RepresentationListAPIView.as_view(), name='representation-list'),
 ]

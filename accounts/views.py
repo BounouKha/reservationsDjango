@@ -760,8 +760,29 @@ class PaymentSuccessView(APIView):
 
 class PriceListAPIView(APIView):
     authentication_classes = [TokenAuthentication]
-
     def get(self, request, *args, **kwargs):
         prices = Price.objects.all()
         serializer = PriceSerializer(prices, many=True)
         return Response(serializer.data)
+    
+
+
+class RepresentationListAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    
+    def get(self, request, *args, **kwargs):
+        title = request.query_params.get('title')
+        if not title:
+            return Response({"error": "Le titre est requis."}, status=400)
+
+        representations = Representation.objects.filter(show__title__icontains=title)
+        data = [
+            {
+                "id": representation.id,
+                "show_id": representation.show.id,
+                "location_id": representation.location.id,
+                "schedule": representation.schedule,
+            }
+            for representation in representations
+        ]
+        return Response(data)

@@ -1,26 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const fetchShowIdByTitle = async (title) => {
+const fetchRepresentationIdByTitle = async (title, schedule, location) => {
     try {
         console.log('Titre recherché :', title);
 
-        const response = await fetch(`http://127.0.0.1:8000/catalogue/api/shows/?title=${encodeURIComponent(title)}`);
+        // Requête pour récupérer toutes les représentations associées au titre
+        const response = await fetch(`http://127.0.0.1:8000/catalogue/api/representations/?title=${encodeURIComponent(title)}`);
         if (!response.ok) {
-            console.error('Erreur lors de la récupération de l\'ID du spectacle.');
+            console.error('Erreur lors de la récupération de l\'ID de la représentation.');
             return null;
         }
 
-        const shows = await response.json();
-        const show = shows.results?.find((s) => s.title.toLowerCase() === title.toLowerCase());
-        if (show) {
-            console.log(`ID trouvé pour le titre "${title}" :`, show.id);
-            return show.id;
+        const representations = await response.json();
+        console.log('Représentations reçues de l\'API :', representations);
+
+        // Filtrer les représentations pour trouver celle qui correspond aux critères
+        const representation = representations.find((rep) => {
+            return (
+                rep.schedule === schedule && // Vérifie la date et l'heure
+                rep.location === location // Vérifie la localisation
+            );
+        });
+
+        if (representation) {
+            console.log(`Représentation trouvée :`, representation);
+            return representation.id; // Retourne l'ID de la représentation
         } else {
-            console.log(`Aucun spectacle trouvé pour le titre "${title}".`);
+            console.log(`Aucune représentation trouvée pour le titre "${title}" avec les critères spécifiés.`);
             return null;
         }
     } catch (error) {
-        console.error('Erreur réseau lors de la récupération de l\'ID du spectacle :', error);
+        console.error('Erreur réseau lors de la récupération de l\'ID de la représentation :', error);
         return null;
     }
 };
@@ -42,14 +52,24 @@ const fetchPrices = async () => {
 };
 
 const Success = () => {
+    const [isProcessing, setIsProcessing] = useState(false); // État pour éviter les requêtes multiples
+
     useEffect(() => {
         const clearCartAndProcessPayment = async () => {
+            if (isProcessing) {
+                console.log('Une requête est déjà en cours. Annulation de l\'appel.');
+                return;
+            }
+
+            setIsProcessing(true); // Marquer comme en cours de traitement
+
             try {
                 const token = localStorage.getItem('token');
                 const userId = JSON.parse(localStorage.getItem('user'))?.id;
 
                 if (!token || !userId) {
                     console.error('Utilisateur non connecté.');
+                    setIsProcessing(false); // Réinitialiser l'état
                     return;
                 }
 
@@ -57,6 +77,7 @@ const Success = () => {
                 const prices = await fetchPrices();
                 if (!prices) {
                     console.error('Impossible de récupérer les prix.');
+                    setIsProcessing(false); // Réinitialiser l'état
                     return;
                 }
 
@@ -79,6 +100,7 @@ const Success = () => {
 
                 if (!cartResponse.ok) {
                     console.error('Erreur lors de la récupération du panier.');
+                    setIsProcessing(false); // Réinitialiser l'état
                     return;
                 }
 
@@ -87,19 +109,24 @@ const Success = () => {
 
                 if (!cartData.items || cartData.items.length === 0) {
                     console.error('Le panier est vide ou les données sont invalides.');
+                    setIsProcessing(false); // Réinitialiser l'état
                     return;
                 }
 
                 // Étape 2 : Récupérer les IDs des spectacles et des prix
                 const quantities = await Promise.all(
                     cartData.items.map(async (item) => {
-                        const showId = await fetchShowIdByTitle(item.title);
-                        if (!showId) {
-                            console.error(`Impossible de trouver l'ID du spectacle pour le titre : ${item.title}`);
+                        const representationId = await fetchRepresentationIdByTitle(
+                            item.title, // Titre du spectacle
+                            item.schedule, // Date et heure de la représentation
+                            item.location // Localisation de la représentation
+                        );
+
+                        if (!representationId) {
+                            console.error(`Impossible de trouver l'ID de la représentation pour le titre : ${item.title}`);
                             return null;
                         }
 
-                        // Convertir price_id en entier à partir du mapping
                         const priceId = priceTypeToId[item.price?.type];
                         if (!priceId) {
                             console.error(`Type de prix invalide : ${item.price?.type}`);
@@ -107,19 +134,19 @@ const Success = () => {
                         }
 
                         return {
-                            representation_id: showId,
+                            representation_id: representationId,
                             price_id: priceId,
                             quantity: item.quantity,
                         };
                     })
                 );
-
                 // Filtrer les données invalides
                 const validQuantities = quantities.filter((q) => q !== null);
                 console.log('Données de paiement générées :', validQuantities);
 
                 if (validQuantities.length === 0) {
                     console.error('Aucune donnée valide pour le paiement.');
+                    setIsProcessing(false); // Réinitialiser l'état
                     return;
                 }
 
@@ -158,11 +185,13 @@ const Success = () => {
                 }
             } catch (error) {
                 console.error('Erreur réseau :', error);
+            } finally {
+                setIsProcessing(false); // Réinitialiser l'état après traitement
             }
         };
 
         clearCartAndProcessPayment();
-    }, []); // Assurez-vous que le tableau de dépendances est vide
+    }, [isProcessing]); // Ajoutez `isProcessing` comme dépendance pour éviter les appels multiples
 
     return (
         <div className="container mt-5">
